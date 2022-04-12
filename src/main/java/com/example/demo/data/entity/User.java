@@ -1,13 +1,11 @@
 package com.example.demo.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="user_table")
 public class User {
+    @GeneratedValue
     @Id
     private long id;
 
@@ -17,10 +15,10 @@ public class User {
     @Column (name = "displaySurname")
     private String  displaySurname;
 
-    @Column (name = "phoneNumber")
+    @Column (unique = true)
     private String phoneNumber;
 
-    @Column (name = "email")
+    @Column (unique = true)
     private String email;
 
     public void setDisplayName(String displayName) {

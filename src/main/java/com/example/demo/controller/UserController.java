@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -21,24 +22,24 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping
-    public User createUser(User user) {
+    @PostMapping()
+    public User createUser(@RequestBody User user) {
         return userRepository.save(user);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id: " + id));
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id: " + id));
         userRepository.delete(user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
+   @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User userDetails) {
         User updateUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
         updateUser.setDisplayName(userDetails.getDisplayName());
