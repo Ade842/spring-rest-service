@@ -2,11 +2,13 @@ package com.example.demo.data.entity;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Entity
-@Table(name="user_table")
+@Table(name = "user_table")
 public class User {
-    @GeneratedValue
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "displayName")
