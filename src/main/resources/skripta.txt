@@ -10,5 +10,6 @@ CREATE TABLE user_table (
     CONSTRAINT uk_eamk4l51hm6yqb8xw37i23kb5 UNIQUE (email)
 );
 
-CREATE USER new3 with encrypted password 'mypassword3'
-GRANT USAGE ON SCHEMA user_schema TO new3
+CREATE USER adelisa with encrypted password 'mypassword3';
+GRANT USAGE ON SCHEMA user_schema TO adelisa;
+grant all PRIVILEGES on user_table to adelisa;
