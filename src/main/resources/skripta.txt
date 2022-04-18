@@ -11,4 +11,4 @@ CREATE TABLE user_table (
 );
 
 CREATE USER new3 with encrypted password 'mypassword3'
-GRANT USAGE ON SCHEMA user_schema TO 
+GRANT USAGE ON SCHEMA user_schema TO new3
