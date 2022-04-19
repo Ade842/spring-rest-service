@@ -9,19 +9,31 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column( name = "id", unique = true)
     private long id;
 
-    @Column(name = "displayName")
+    @Column(name = "display_name")
     private String displayName;
 
-    @Column (name = "displaySurname")
+    @Column (name = "display_surname")
     private String  displaySurname;
 
-    @Column (unique = true)
+    @Column (name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Column (unique = true)
+    @Column (name = "email", unique = true)
     private String email;
+
+    public User() {
+    }
+
+    public User(String displayName, String displaySurname, String phoneNumber, String email){
+
+        this.displayName = displayName;
+        this.displaySurname = displaySurname;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -53,5 +65,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public long getId() {
+        return id;
     }
 }
