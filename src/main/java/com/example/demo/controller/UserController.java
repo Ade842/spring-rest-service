@@ -3,8 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.data.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import request.CreateUserRequest;
+import request.UpdateUserRequest;
+import response.SaveOrUpdateResponse;
+import response.UserResponse;
+
 import java.util.List;
 
 @RestController
@@ -19,23 +25,23 @@ public class UserController {
     }
 
   @GetMapping("/{id}")
-  private User getBooks(@PathVariable long id) {
-     return userService.getUserById(id);
+  private ResponseEntity<UserResponse> getUserById(@PathVariable long id) {
+     return new ResponseEntity(userService.getUserById(id),HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
-  private void deleteBook(@PathVariable("id") int id) {
+  private void deleteUser(@PathVariable("id") int id) {
     userService.delete(id);
   }
 
   @PostMapping()
-  private long saveUser(@RequestBody User user) {
-    return userService.saveOrUpdate(user);
+  private ResponseEntity<SaveOrUpdateResponse> saveUser(@RequestBody CreateUserRequest user) {
+    return new ResponseEntity(userService.createUsre(user),HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  public User update(@PathVariable long id, @RequestBody User user) {
+  public ResponseEntity<UserResponse> update(@PathVariable long id, @RequestBody UpdateUserRequest user) {
     userService.updateUser(id, user);
-    return user;
+    return new ResponseEntity(userService.getUserById(id),HttpStatus.OK);
   }
 }
