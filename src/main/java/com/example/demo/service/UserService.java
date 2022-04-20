@@ -31,7 +31,7 @@ public class UserService {
         try {
             userRepository.deleteById(id);
         } catch (Exception e) {
-            throw e;
+            throw new ResourceNotFoundException("User not exist with id:" + id);
         }
     }
 
