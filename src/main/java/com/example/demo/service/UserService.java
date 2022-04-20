@@ -19,7 +19,7 @@ public class UserService {
 
     public User getUserById(long id) {
             User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
-            return userRepository.findById(id).get();
+            return user;
     }
 
     public long saveOrUpdate(User user) {
@@ -28,8 +28,11 @@ public class UserService {
     }
 
     public void delete(long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
-        userRepository.deleteById(id);
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void updateUser(long id, User userDetails) {
