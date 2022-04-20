@@ -2,8 +2,6 @@ package com.example.demo.data.entity;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 @Entity
 @Table(name = "user_table")
 public class User {
@@ -23,17 +21,6 @@ public class User {
 
     @Column (name = "email", unique = true)
     private String email;
-
-    public User() {
-    }
-
-    public User(String displayName, String displaySurname, String phoneNumber, String email){
-
-        this.displayName = displayName;
-        this.displaySurname = displaySurname;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
