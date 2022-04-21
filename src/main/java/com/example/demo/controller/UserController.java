@@ -10,7 +10,6 @@ import request.CreateUserRequest;
 import request.UpdateUserRequest;
 import response.SaveOrUpdateResponse;
 import response.UserResponse;
-
 import java.util.List;
 
 @RestController
@@ -36,7 +35,7 @@ public class UserController {
 
   @PostMapping()
   private ResponseEntity<SaveOrUpdateResponse> saveUser(@RequestBody CreateUserRequest user) {
-    return new ResponseEntity(userService.createUsre(user),HttpStatus.OK);
+    return new ResponseEntity(userService.createUser(user),HttpStatus.OK);
   }
 
   @PutMapping("/{id}")

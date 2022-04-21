@@ -17,7 +17,6 @@ public class DemoApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
 
-
 	@Override
 	public void run(String... args) throws Exception {
          User user = new User();

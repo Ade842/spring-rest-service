@@ -28,14 +28,12 @@ public class UserService {
     }
 
     public User getUserById(long id) {
-            User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
-            return user;
+            return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
     }
 
-    public long createUsre(CreateUserRequest createUserRequest) {
+    public long createUser(CreateUserRequest createUserRequest) {
         try {
-            User savedUser = userRepository.save(createUserFromUserRequest(createUserRequest));
-            return  savedUser.getId();
+            return userRepository.save(createUserFromUserRequest(createUserRequest)).getId();
         } catch (Exception e) {
             throw new ResourceNotFoundException("User not save" );
         }
