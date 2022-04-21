@@ -1,52 +1,44 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.User;
-import com.example.demo.data.repository.UserRepository;
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.response.GetAllUsersResponse;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import com.example.demo.request.CreateUserRequest;
+import com.example.demo.request.SavingUserRequest;
+import com.example.demo.response.CreateResponse;
+import com.example.demo.response.UserResponse;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserService userService;
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @PostMapping()
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+  @GetMapping()
+  public GetAllUsersResponse getAllUsers() {
+     return  userService.getAllUsers();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id: " + id));
-        return ResponseEntity.ok(user);
-    }
+  @GetMapping("/{id}")
+  private UserResponse getUserById(@PathVariable long id) {
+    return userService.getUserById(id);
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id: " + id));
-        userRepository.delete(user);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-   @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User userDetails) {
-        User updateUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
-        updateUser.setDisplayName(userDetails.getDisplayName());
-        updateUser.setDisplaySurname(userDetails.getDisplaySurname());
-        updateUser.setPhoneNumber(userDetails.getPhoneNumber());
-        updateUser.setEmail(userDetails.getEmail());
-        userRepository.save(updateUser);
-        return ResponseEntity.ok(updateUser);
-    }
+  @DeleteMapping("/{id}")
+  private void deleteUser(@PathVariable("id") int id) {
+    userService.delete(id);
+  }
+
+  @PostMapping()
+  private CreateResponse saveUser(@RequestBody CreateUserRequest user) {
+    return userService.createUser(user);
+  }
+
+  @PutMapping("/{id}")
+  public UserResponse update(@PathVariable long id, @RequestBody SavingUserRequest user) {
+    userService.updateUser(id, user);
+    return userService.getUserById(id);
+  }
 }

@@ -1,26 +1,24 @@
-package com.example.demo.data.entity;
+package com.example.demo.response;
 
-import javax.persistence.*;
+public class UserResponse {
 
-@Entity
-@Table(name = "user_table")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column( name = "id", unique = true)
     private long id;
-
-    @Column(name = "display_name")
     private String displayName;
-
-    @Column (name = "display_surname")
     private String  displaySurname;
-
-    @Column (name = "phone_number", unique = true)
     private String phoneNumber;
-
-    @Column (name = "email", unique = true)
     private String email;
+
+
+    public UserResponse(){
+
+    }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -54,10 +52,4 @@ public class User {
         this.email = email;
     }
 
-    public long getId() {
-        return id;
-    }
-    public void setId() {
-        this.id = id;
-    }
 }

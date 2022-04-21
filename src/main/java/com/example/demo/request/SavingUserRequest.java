@@ -1,25 +1,10 @@
-package com.example.demo.data.entity;
+package com.example.demo.request;
 
-import javax.persistence.*;
+public class SavingUserRequest {
 
-@Entity
-@Table(name = "user_table")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column( name = "id", unique = true)
-    private long id;
-
-    @Column(name = "display_name")
     private String displayName;
-
-    @Column (name = "display_surname")
     private String  displaySurname;
-
-    @Column (name = "phone_number", unique = true)
     private String phoneNumber;
-
-    @Column (name = "email", unique = true)
     private String email;
 
     public void setDisplayName(String displayName) {
@@ -54,10 +39,5 @@ public class User {
         this.email = email;
     }
 
-    public long getId() {
-        return id;
-    }
-    public void setId() {
-        this.id = id;
-    }
+
 }
