@@ -1,4 +1,4 @@
-package request;
+package com.example.demo.request;
 
 public class CreateUserRequest {
 

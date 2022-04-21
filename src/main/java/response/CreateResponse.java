@@ -1,6 +1,6 @@
 package response;
 
-public class SaveOrUpdateResponse {
+public class CreateResponse {
 
     private long id;
 

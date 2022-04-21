@@ -5,8 +5,8 @@ import com.example.demo.data.repository.UserRepository;
 import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import request.CreateUserRequest;
-import request.UpdateUserRequest;
+import com.example.demo.request.CreateUserRequest;
+import com.example.demo.request.UpdateUserRequest;
 import java.util.List;
 
 @Service

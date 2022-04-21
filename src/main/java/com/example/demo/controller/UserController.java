@@ -6,15 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import request.CreateUserRequest;
-import request.UpdateUserRequest;
-import response.SaveOrUpdateResponse;
+import com.example.demo.request.CreateUserRequest;
+import com.example.demo.request.UpdateUserRequest;
+import response.CreateResponse;
 import response.UserResponse;
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
   @Autowired
   private UserService userService;
 
@@ -34,7 +35,7 @@ public class UserController {
   }
 
   @PostMapping()
-  private ResponseEntity<SaveOrUpdateResponse> saveUser(@RequestBody CreateUserRequest user) {
+  private ResponseEntity<CreateResponse> saveUser(@RequestBody CreateUserRequest user) {
     return new ResponseEntity(userService.createUser(user),HttpStatus.OK);
   }
 
