@@ -4,11 +4,14 @@ import com.example.demo.data.entity.User;
 import com.example.demo.data.repository.UserRepository;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.response.CreateResponse;
+import com.example.demo.response.GetAllUsersResponse;
 import com.example.demo.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.request.CreateUserRequest;
 import com.example.demo.request.SavingUserRequest;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,10 +43,16 @@ public class UserService {
         userResponse.setId(userId);
         return userResponse;
         }
-
-
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public GetAllUsersResponse fromListUserToListUserResponse(List<User> listUsers){
+        List<UserResponse> listUserResponse = new ArrayList<>() {} ;
+        for (int i = 0; i < listUsers.size(); i++){
+            listUserResponse.add(fromUserToUserResponse(listUsers.get(i)));
+        }
+        GetAllUsersResponse listAllUsersRespone = new GetAllUsersResponse(listUserResponse);
+        return listAllUsersRespone;
+  }
+    public GetAllUsersResponse getAllUsers(){
+        return fromListUserToListUserResponse(userRepository.findAll());
     }
 
     public UserResponse getUserById(long id) {
