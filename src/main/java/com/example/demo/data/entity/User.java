@@ -57,4 +57,7 @@ public class User {
     public long getId() {
         return id;
     }
+    public void setId() {
+        this.id = id;
+    }
 }

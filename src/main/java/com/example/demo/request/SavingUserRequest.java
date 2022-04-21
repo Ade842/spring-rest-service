@@ -1,6 +1,7 @@
 package com.example.demo.request;
 
-public class UpdateUserRequest {
+public class SavingUserRequest {
+
     private String displayName;
     private String  displaySurname;
     private String phoneNumber;

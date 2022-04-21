@@ -3,11 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.data.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.request.CreateUserRequest;
-import com.example.demo.request.UpdateUserRequest;
+import com.example.demo.request.SavingUserRequest;
 import com.example.demo.response.CreateResponse;
 import com.example.demo.response.UserResponse;
 import java.util.List;
@@ -25,8 +24,8 @@ public class UserController {
     }
 
   @GetMapping("/{id}")
-  private ResponseEntity<UserResponse> getUserById(@PathVariable long id) {
-     return new ResponseEntity(userService.getUserById(id),HttpStatus.OK);
+  private UserResponse getUserById(@PathVariable long id) {
+    return userService.getUserById(id);
   }
 
   @DeleteMapping("/{id}")
@@ -35,13 +34,13 @@ public class UserController {
   }
 
   @PostMapping()
-  private ResponseEntity<CreateResponse> saveUser(@RequestBody CreateUserRequest user) {
-    return new ResponseEntity(userService.createUser(user),HttpStatus.OK);
+  private CreateResponse saveUser(@RequestBody CreateUserRequest user) {
+    return userService.createUser(user);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<UserResponse> update(@PathVariable long id, @RequestBody UpdateUserRequest user) {
+  public UserResponse update(@PathVariable long id, @RequestBody SavingUserRequest user) {
     userService.updateUser(id, user);
-    return new ResponseEntity(userService.getUserById(id),HttpStatus.OK);
+    return userService.getUserById(id);
   }
 }

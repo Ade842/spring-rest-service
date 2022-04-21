@@ -8,8 +8,16 @@ public class UserResponse {
     private String phoneNumber;
     private String email;
 
+
+    public UserResponse(){
+
+    }
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setDisplayName(String displayName) {
@@ -43,6 +51,5 @@ public class UserResponse {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
 }
