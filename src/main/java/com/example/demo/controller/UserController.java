@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.request.CreateUserRequest;
 import com.example.demo.request.UpdateUserRequest;
-import response.CreateResponse;
-import response.UserResponse;
+import com.example.demo.response.CreateResponse;
+import com.example.demo.response.UserResponse;
 import java.util.List;
 
 @RestController
