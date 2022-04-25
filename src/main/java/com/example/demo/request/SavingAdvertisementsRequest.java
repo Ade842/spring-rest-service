@@ -1,10 +1,11 @@
 package com.example.demo.request;
 
-import com.example.demo.data.entity.User;
-
 public class SavingAdvertisementsRequest {
     private String title;
     private String description;
+    private long userId;
+
+    public SavingAdvertisementsRequest() {}
 
     public String getTitle() {
         return title;
@@ -18,4 +19,7 @@ public class SavingAdvertisementsRequest {
         return description;
     }
 
+    public long getUserId() {return userId;}
+
+    public void setUserId(long userId) {this.userId = userId;}
 }

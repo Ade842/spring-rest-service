@@ -37,6 +37,7 @@ public class AdvertisementService {
         advertisementResponse.setTitle(advertisements.getTitle());
         advertisementResponse.setDescription(advertisements.getDescription());
         advertisementResponse.setUserId(advertisements.getUser().getId());
+        //advertisementResponse.setUserId(user.getId());
         return advertisementResponse;
     }
 
@@ -87,7 +88,8 @@ public class AdvertisementService {
         Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement not exist with id:" + id));
         advertisements.setTitle(advertisementsDetails.getTitle());
         advertisements.setDescription(advertisementsDetails.getDescription());
-        advertisements.setUser(advertisements.getUser());
+        User user = userRepository.findById(advertisementsDetails.getUserId()).get();
+        advertisements.setUser(user);
         advertisementRepository.save(advertisements);
         return fromAdvertisementsToAdvertisementResponse(advertisements, userRepository.getById(id));
     }
