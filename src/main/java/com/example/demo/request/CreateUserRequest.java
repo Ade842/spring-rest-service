@@ -7,35 +7,28 @@ public class CreateUserRequest {
     private String phoneNumber;
     private String email;
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
 
     public String getDisplayName() {
-        return displayName;
-    }
+                return displayName;
+            }
 
     public String getDisplaySurname() {
         return displaySurname;
     }
 
-    public void setDisplaySurname(String displaySurname) {
-        this.displaySurname = displaySurname;
-    }
+     public void setDisplaySurname(String displaySurname) {this.displaySurname = displaySurname;}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    public String getPhoneNumber() {return phoneNumber;}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;    }
 
     public String getEmail() {
-        return email;
-    }
+                return email;
+            }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String email) {this.email = email;}
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

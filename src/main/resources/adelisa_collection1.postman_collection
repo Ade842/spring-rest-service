@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "90aac9bf-4f0a-4319-98bc-6147ed90b215",
-		"name": "user_collection",
+		"name": "adelisa_collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -19,6 +19,91 @@
 					"port": "8080",
 					"path": [
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete advertisement",
+			"request": {
+				"method": "DELETE",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Update advertisement",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"title\": \"novi\",\r\n    \"description\": \"novi\",\r\n    \"userId\":8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/advertisements/20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET AdvertisementById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/advertisements/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Advertisement",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"title\": \"novi\",\r\n    \"description\": \"novi\",\r\n    \"userId\":8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/advertisements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements"
 					]
 				}
 			},
@@ -116,6 +201,25 @@
 					"path": [
 						"users",
 						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET AllAdvertisement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/advertisements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements"
 					]
 				}
 			},

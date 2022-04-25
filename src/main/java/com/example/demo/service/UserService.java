@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.request.CreateUserRequest;
 import com.example.demo.request.SavingUserRequest;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,11 +44,10 @@ public class UserService {
         }
     public GetAllUsersResponse fromListUserToListUserResponse(List<User> listUsers){
         List<UserResponse> listUserResponse = new ArrayList<>() {} ;
-        for (int i = 0; i < listUsers.size(); i++){
-            listUserResponse.add(fromUserToUserResponse(listUsers.get(i)));
+        for (User listUser : listUsers) {
+            listUserResponse.add(fromUserToUserResponse(listUser));
         }
-        GetAllUsersResponse listAllUsersRespone = new GetAllUsersResponse(listUserResponse);
-        return listAllUsersRespone;
+        return new GetAllUsersResponse(listUserResponse);
   }
     public GetAllUsersResponse getAllUsers(){
         return fromListUserToListUserResponse(userRepository.findAll());
