@@ -2,13 +2,15 @@ package com.example.demo.response;
 
 public class CreateAdvertisementsResponse {
 
-    private long id;
+  private long id;
 
-    public CreateAdvertisementsResponse(){}
+  public CreateAdvertisementsResponse() {}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public long getId() {return id;}
+  public void setId(final long id) {
+    this.id = id;
+  }
 }

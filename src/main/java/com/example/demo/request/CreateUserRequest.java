@@ -2,33 +2,41 @@ package com.example.demo.request;
 
 public class CreateUserRequest {
 
-    private String displayName;
-    private String  displaySurname;
-    private String phoneNumber;
-    private String email;
+  private String displayName;
+  private String displaySurname;
+  private String phoneNumber;
+  private String email;
 
 
-    public String getDisplayName() {
-                return displayName;
-            }
+  public String getDisplayName() {
+    return displayName;
+  }
 
-    public String getDisplaySurname() {
-        return displaySurname;
-    }
+  public void setDisplayName(final String displayName) {
+    this.displayName = displayName;
+  }
 
-     public void setDisplaySurname(String displaySurname) {this.displaySurname = displaySurname;}
+  public String getDisplaySurname() {
+    return displaySurname;
+  }
 
-    public String getPhoneNumber() {return phoneNumber;}
+  public void setDisplaySurname(final String displaySurname) {
+    this.displaySurname = displaySurname;
+  }
 
-    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;    }
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
 
-    public String getEmail() {
-                return email;
-            }
+  public void setPhoneNumber(final String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
 
-    public void setEmail(String email) {this.email = email;}
+  public String getEmail() {
+    return email;
+  }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
+  public void setEmail(final String email) {
+    this.email = email;
+  }
 }
