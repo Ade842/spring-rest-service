@@ -4,18 +4,18 @@ import java.util.List;
 
 public class GetAllAdvertisementsResponse {
 
-    public GetAllAdvertisementsResponse() {}
+  private List<AdvertisementResponse> allAdvertisements;
 
-    private List<AdvertisementResponse> allAdvertisements;
+  public GetAllAdvertisementsResponse() {
+  }
 
-    public GetAllAdvertisementsResponse(List<AdvertisementResponse> allAdvertisements) {
-        this.allAdvertisements = allAdvertisements;
-    }
-    public List<AdvertisementResponse> getAllAdvertisements() {
-        return allAdvertisements;
-    }
+  public GetAllAdvertisementsResponse(final List<AdvertisementResponse> allAdvertisements) {
+    this.allAdvertisements = allAdvertisements;
+  }
 
-    public void setAllUsers(List<AdvertisementResponse> allAdvertisements) {
-        this.allAdvertisements = allAdvertisements;
-    }
+  public List<AdvertisementResponse> getAllAdvertisements() {
+    return allAdvertisements;
+  }
+
+  //public void setAllUsers(final List<AdvertisementResponse> allAdvertisements) {this.allAdvertisements = allAdvertisements;}
 }

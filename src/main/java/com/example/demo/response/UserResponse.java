@@ -2,42 +2,53 @@ package com.example.demo.response;
 
 public class UserResponse {
 
-    private long id;
-    private String displayName;
-    private String  displaySurname;
-    private String phoneNumber;
-    private String email;
+  private long id;
+  private String displayName;
+  private String displaySurname;
+  private String phoneNumber;
+  private String email;
 
 
-    public UserResponse(){}
+  public UserResponse() {
+  }
 
-    public long getId() {
-        return id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public void setId(long id) {this.id = id;}
+  public void setId(final long id) {
+    this.id = id;
+  }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
+  public String getDisplayName() {
+    return displayName;
+  }
 
-    public void setDisplaySurname(String displaySurname) {
-        this.displaySurname = displaySurname;
-    }
+  public void setDisplayName(final String displayName) {
+    this.displayName = displayName;
+  }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+  public String getDisplaySurname() {
+    return displaySurname;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setDisplaySurname(final String displaySurname) {
+    this.displaySurname = displaySurname;
+  }
 
-    public String getDisplayName() {return displayName;}
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
 
-    public String getDisplaySurname() {return displaySurname;}
+  public void setPhoneNumber(final String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
 
-    public String getPhoneNumber() {return phoneNumber;}
+  public String getEmail() {
+    return email;
+  }
 
-    public String getEmail() {return email;}
+  public void setEmail(final String email) {
+    this.email = email;
+  }
 }

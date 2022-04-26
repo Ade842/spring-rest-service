@@ -4,15 +4,21 @@ import java.util.List;
 
 public class GetAllUsersResponse {
 
-    public GetAllUsersResponse() {}
-    private List<UserResponse> allUsers;
+  private List<UserResponse> allUsers;
 
-    public GetAllUsersResponse(List<UserResponse> allUsers) {
-        this.allUsers = allUsers;
-    }
+  public GetAllUsersResponse() {
+  }
 
-    public List<UserResponse> getAllUsers() {return allUsers;}
+  public GetAllUsersResponse(final List<UserResponse> allUsers) {
+    this.allUsers = allUsers;
+  }
 
-    public void setAllUsers(List<UserResponse> allUsers) {this.allUsers = allUsers;}
+  public final List<UserResponse> getAllUsers() {
+    return allUsers;
+  }
+
+  public void setAllUsers(final List<UserResponse> allUsers) {
+    this.allUsers = allUsers;
+  }
 
 }

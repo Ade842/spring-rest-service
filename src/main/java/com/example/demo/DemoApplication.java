@@ -10,16 +10,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+  @Autowired
+  private UserRepository userRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+  public static void main(final String[] args) {
+    SpringApplication.run(DemoApplication.class, args);
+  }
 
-	@Override
-	public void run(String... args) throws Exception {
-         User user = new User();
+  @Override
+  public void run(final String... args) throws Exception {
+    User user = new User();
 
-	}
+  }
 }

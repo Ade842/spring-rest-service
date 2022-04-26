@@ -2,19 +2,23 @@ package com.example.demo.request;
 
 
 public class CreateAdvertisementsRequest {
-    private String title;
-    private String description;
-    private long userId;
+  private String title;
+  private String description;
+  private long userId;
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public long getUserId() {return userId;}
+  public long getUserId() {
+    return userId;
+  }
 
-    public void setUserId(long userId) {this.userId = userId;}
+  public void setUserId(final long userId) {
+    this.userId = userId;
+  }
 }
