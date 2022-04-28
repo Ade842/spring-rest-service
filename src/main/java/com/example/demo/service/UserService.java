@@ -46,7 +46,7 @@ public class UserService {
   }
 
   public GetAllUsersResponse fromListUserToListUserResponse(final List<User> listUsers) {
-    List<UserResponse> listUserResponse = new ArrayList<>() {
+    List<UserResponse> listUserResponse = new ArrayList<UserResponse>() {
     };
     for (User listUser : listUsers) {
       listUserResponse.add(fromUserToUserResponse(listUser));
