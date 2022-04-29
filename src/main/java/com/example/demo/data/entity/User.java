@@ -43,14 +43,6 @@ public class User {
 
   public User() {}
 
-  @SuppressWarnings("checkstyle:WhitespaceAround")
-  public User(final String displayName, final String displaySurname, final String phoneNumber, final String email){
-    this.displayName = displayName;
-    this.displaySurname = displaySurname;
-    this.phoneNumber = phoneNumber;
-    this.email = email;
-  }
-
   public String getDisplayName() {
     return displayName;
   }
