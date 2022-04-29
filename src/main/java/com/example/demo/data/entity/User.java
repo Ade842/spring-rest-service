@@ -1,11 +1,17 @@
 package com.example.demo.data.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "user_table")
@@ -26,6 +32,16 @@ public class User {
 
   @Column(name = "email", unique = true)
   private String email;
+
+  @CreationTimestamp
+  @Column(name = "created_at", insertable = false, updatable = false)
+  private Date createdAt;
+
+  @UpdateTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date updatedAt;
+
+  public User() {}
 
   public String getDisplayName() {
     return displayName;

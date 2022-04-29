@@ -46,7 +46,7 @@ public class UserService {
   }
 
   public GetAllUsersResponse fromListUserToListUserResponse(final List<User> listUsers) {
-    List<UserResponse> listUserResponse = new ArrayList<>() {
+    List<UserResponse> listUserResponse = new ArrayList<UserResponse>() {
     };
     for (User listUser : listUsers) {
       listUserResponse.add(fromUserToUserResponse(listUser));
@@ -59,7 +59,7 @@ public class UserService {
   }
 
   public UserResponse getUserById(final long id) {
-    return fromUserToUserResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id)));
+    return fromUserToUserResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found")));
   }
 
   public CreateResponse createUser(final CreateUserRequest createUserRequest) {
@@ -67,7 +67,7 @@ public class UserService {
       User savedUser = userRepository.save(createUserFromUserRequest(createUserRequest));
       return fromUserToCreateResponse(savedUser.getId());
     } catch (Exception e) {
-      throw new ResourceNotFoundException("User not save");
+      throw new ResourceNotFoundException("User could not be saved");
     }
   }
 
@@ -75,12 +75,12 @@ public class UserService {
     try {
       userRepository.deleteById(id);
     } catch (Exception e) {
-      throw new ResourceNotFoundException("User not exist with id:" + id);
+      throw new ResourceNotFoundException("User with id:" + id + " could not be found");
     }
   }
 
   public UserResponse updateUser(final long id, final SavingUserRequest userDetails) {
-    User updateUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
+    User updateUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found"));
     updateUser.setDisplayName(userDetails.getDisplayName());
     updateUser.setDisplaySurname(userDetails.getDisplaySurname());
     updateUser.setPhoneNumber(userDetails.getPhoneNumber());

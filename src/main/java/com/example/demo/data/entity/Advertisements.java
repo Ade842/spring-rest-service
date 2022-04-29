@@ -1,5 +1,9 @@
 package com.example.demo.data.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +30,14 @@ public class Advertisements {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  @Column(name = "created_at", insertable = false, updatable = false)
+  @CreationTimestamp
+  private Date createdAt;
+
+  @Column(name = "updated_at", insertable = false, updatable = false)
+  @UpdateTimestamp
+  private Date updatedAt;
 
   public long getId() {
     return id;
