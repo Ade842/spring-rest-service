@@ -64,7 +64,7 @@ public class AdvertisementService {
 
   public AdvertisementResponse getAdvertisementsById(final long id) {
     User user = userRepository.getById(id);
-    return fromAdvertisementsToAdvertisementResponse(advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement not exist with id:" + id)), user);
+    return fromAdvertisementsToAdvertisementResponse(advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id:" + id + " could not be found")), user);
   }
 
   public CreateAdvertisementsResponse createAdvertisement(final CreateAdvertisementsRequest createAdvertisementsRequest) {
@@ -75,7 +75,7 @@ public class AdvertisementService {
       return fromAdvertisementsToCreateResponse(advertisement.getId());
     } catch (Exception e) {
       System.out.println(Arrays.toString(e.getStackTrace()));
-      throw new ResourceNotFoundException("Advertisement not save");
+      throw new ResourceNotFoundException("Advertisement could not be saved");
     }
   }
 
@@ -83,12 +83,12 @@ public class AdvertisementService {
     try {
       advertisementRepository.deleteById(id);
     } catch (Exception e) {
-      throw new ResourceNotFoundException("Advertisement not exist with id:" + id);
+      throw new ResourceNotFoundException("Advertisement with id:" + id + " could not be found");
     }
   }
 
   public AdvertisementResponse updateAdvertisements(final long id, final  SavingAdvertisementsRequest advertisementsDetails) {
-    Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement not exist with id:" + id));
+    Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id:" + id + " could not be found"));
     advertisements.setTitle(advertisementsDetails.getTitle());
     advertisements.setDescription(advertisementsDetails.getDescription());
     advertisementRepository.save(advertisements);

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
+import com.github.javafaker.Faker;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
@@ -13,9 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Random;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AdvertisementIntegrationTest {
@@ -35,15 +33,6 @@ public class AdvertisementIntegrationTest {
     RestAssured.port = port;
   }
 
-  public String randomTitle(int len) {
-    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk";
-    Random rnd = new Random();
-    StringBuilder sb = new StringBuilder(len);
-    for (int i = 0; i < len; i++)
-      sb.append(chars.charAt(rnd.nextInt(chars.length())));
-    return sb.toString();
-  }
-
   @Test
   public void getAllAdvertisements() {
     validatableResponse = given()
@@ -55,22 +44,39 @@ public class AdvertisementIntegrationTest {
   }
 
   @Test
-  public void getAdvertisementById() {
+  public void getAdvertisementById() throws JSONException {
+    Faker faker = new Faker();
+    String randomTitle = faker.name().title();
+
+    JSONObject newAdvertisement = new JSONObject();
+
+    newAdvertisement.put("title", randomTitle);
+    newAdvertisement.put("description", randomTitle + " description");
+    newAdvertisement.put("userId", 1);
+
+    int id = given()
+        .contentType(ContentType.JSON).body(newAdvertisement.toString())
+        .when()
+        .post("/advertisements")
+        .then()
+        .log().all().assertThat().statusCode(200).extract().
+        path("id");
     validatableResponse = given()
         .contentType(ContentType.JSON)
         .when()
-        .get("/advertisements/8")
+        .get("/advertisements/"+id)
         .then()
         .assertThat().log().all().statusCode(200);
   }
 
   @Test
   public void createAdvertisement() throws JSONException {
-    String randomTitle = randomTitle(7);
+    Faker faker = new Faker();
+    String randomTitle = faker.name().title();
     JSONObject newAdvertisement = new JSONObject();
 
     newAdvertisement.put("title", randomTitle);
-    newAdvertisement.put("description", randomTitle + "description");
+    newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId", 1);
 
     int id = given()
@@ -88,7 +94,7 @@ public class AdvertisementIntegrationTest {
         .then()
         .log().all().assertThat().statusCode(200)
         .body("title", equalTo(randomTitle))
-        .body("description", equalTo(randomTitle + "description"))
+        .body("description", equalTo(randomTitle + " description"))
         .body("userId", equalTo(1));
 
   }
@@ -96,12 +102,13 @@ public class AdvertisementIntegrationTest {
   @Test
   public void updateAdvertisement() throws JSONException {
 
-    String randomTitle = randomTitle(7);
+    Faker faker = new Faker();
+    String randomTitle = faker.name().title();
 
     JSONObject newAdvertisement = new JSONObject();
 
     newAdvertisement.put("title", randomTitle);
-    newAdvertisement.put("description", randomTitle + "description");
+    newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId", 1);
 
     int id = given()
@@ -112,11 +119,12 @@ public class AdvertisementIntegrationTest {
         .log().all().assertThat().statusCode(200).extract().
         path("id");
 
-    String randomUpdateTitle = randomTitle(7);
+    Faker fakerUpdate = new Faker();
+    String randomUpdateTitle = faker.name().title();
     JSONObject newUpdateAdvertisement = new JSONObject();
 
     newUpdateAdvertisement.put("title", randomUpdateTitle);
-    newUpdateAdvertisement.put("description", randomUpdateTitle + "description");
+    newUpdateAdvertisement.put("description", randomUpdateTitle + " description");
     newUpdateAdvertisement.put("userId", 1);
 
     validatableResponse = given()
@@ -133,19 +141,21 @@ public class AdvertisementIntegrationTest {
         .then()
         .log().all().assertThat().statusCode(200)
         .body("title", equalTo(randomUpdateTitle))
-        .body("description", equalTo(randomUpdateTitle + "description"))
+        .body("description", equalTo(randomUpdateTitle + " description"))
         .body("userId", equalTo(1));
 
   }
 
   @Test
   public void deleteAdvertisement() throws JSONException {
-    String randomTitle = randomTitle(7);
+
+    Faker faker = new Faker();
+    String randomTitle = faker.name().title();
 
     JSONObject newAdvertisement = new JSONObject();
 
     newAdvertisement.put("title", randomTitle);
-    newAdvertisement.put("description", randomTitle + "description");
+    newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId", 1);
 
     int id = given()
@@ -159,14 +169,14 @@ public class AdvertisementIntegrationTest {
     validatableResponse = given()
         .contentType(ContentType.JSON)
         .when()
-        .delete("/advertisements/5")
+        .delete("/advertisements/" + id)
         .then()
-        .log().all().assertThat().statusCode(500);
+        .log().all().assertThat().statusCode(204);
 
     validatableResponse1 = given()
         .contentType(ContentType.JSON)
         .when()
-        .get("/advertisements/5")
+        .get("/advertisements/" + id)
         .then()
         .log().all().assertThat().statusCode(500);
 
