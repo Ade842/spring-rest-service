@@ -9,12 +9,11 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-
-import java.util.Random;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserIntegrationTest {
@@ -72,6 +71,7 @@ public class UserIntegrationTest {
         .then()
         .assertThat().log().all().statusCode(200);
   }
+
 
   @Test
   public void createUser_success() throws JSONException {

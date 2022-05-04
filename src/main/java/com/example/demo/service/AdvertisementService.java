@@ -88,7 +88,7 @@ public class AdvertisementService {
   }
 
   public AdvertisementResponse updateAdvertisements(final long id, final  SavingAdvertisementsRequest advertisementsDetails) {
-    Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id:" + id + " could not be found"));
+    Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id: " + id + " could not be found"));
     advertisements.setTitle(advertisementsDetails.getTitle());
     advertisements.setDescription(advertisementsDetails.getDescription());
     advertisementRepository.save(advertisements);
