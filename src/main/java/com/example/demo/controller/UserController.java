@@ -30,32 +30,32 @@ public class UserController {
   @GetMapping()
   public ResponseEntity<GetAllUsersResponse> getAllUsers() {
     GetAllUsersResponse getAllUsersResponse = userService.getAllUsers();
-    LOGGER .info("Users: {}", getAllUsersResponse);
+    LOGGER.info("Users: {}", getAllUsersResponse.toString());
     return ResponseEntity.ok(getAllUsersResponse);
   }
 
   @GetMapping("/{id}")
   private ResponseEntity<UserResponse> getUserById(@PathVariable final long id) {
-    LOGGER .info("User with id: " + id);
+    LOGGER.info("User with id: " + id + " " + userService.getUserById(id).userResponseString());
     return ResponseEntity.ok(userService.getUserById(id));
   }
 
   @DeleteMapping("/{id}")
   private ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") final int id) {
     userService.delete(id);
-    LOGGER .info("Deleted user with id: " + id);
+    LOGGER.info("Deleted user with id: " + id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @PostMapping()
   private ResponseEntity<CreateResponse> saveUser(@RequestBody final CreateUserRequest user) {
-    LOGGER.info("Created new user: {}", user);
+    LOGGER.info("Created new user: {}", user.userRequestString());
     return ResponseEntity.ok(userService.createUser(user));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<UserResponse> update(@PathVariable final long id, @RequestBody final SavingUserRequest user) {
-    LOGGER .info("Updated user with id: " + id);
+    LOGGER.info("Updated user with id: " + id);
     return ResponseEntity.ok(userService.updateUser(id, user));
   }
 }

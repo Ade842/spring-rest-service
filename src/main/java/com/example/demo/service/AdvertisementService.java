@@ -26,7 +26,8 @@ public class AdvertisementService {
   private UserRepository userRepository;
 
 
-  public Advertisements createAdvertisementsFromAdvertisementRequest(final CreateAdvertisementsRequest createAdvertisementsRequest, final User user) {
+  public Advertisements createAdvertisementsFromAdvertisementRequest(
+      final CreateAdvertisementsRequest createAdvertisementsRequest, final User user) {
     Advertisements advertisement = new Advertisements();
     advertisement.setTitle(createAdvertisementsRequest.getTitle());
     advertisement.setDescription(createAdvertisementsRequest.getDescription());
@@ -87,7 +88,7 @@ public class AdvertisementService {
     }
   }
 
-  public AdvertisementResponse updateAdvertisements(final long id, final  SavingAdvertisementsRequest advertisementsDetails) {
+  public AdvertisementResponse updateAdvertisements(final long id, final SavingAdvertisementsRequest advertisementsDetails) {
     Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id: " + id + " could not be found"));
     advertisements.setTitle(advertisementsDetails.getTitle());
     advertisements.setDescription(advertisementsDetails.getDescription());

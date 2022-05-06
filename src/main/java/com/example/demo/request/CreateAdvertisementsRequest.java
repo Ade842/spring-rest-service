@@ -21,4 +21,10 @@ public class CreateAdvertisementsRequest {
   public void setUserId(final long userId) {
     this.userId = userId;
   }
+
+  public String advertisementRequestString() {
+    String advertisement = "";
+    advertisement = "{'title': " + getTitle() + ", " + "'descriptioon': " + getDescription() + "}";
+    return advertisement;
+  }
 }

@@ -16,4 +16,5 @@ public class SavingAdvertisementsRequest {
     return description;
   }
 
+
 }

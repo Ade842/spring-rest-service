@@ -17,5 +17,12 @@ public class GetAllAdvertisementsResponse {
     return allAdvertisements;
   }
 
-  //public void setAllUsers(final List<AdvertisementResponse> allAdvertisements) {this.allAdvertisements = allAdvertisements;}
+  @Override
+  public String toString() {
+    String allAdvertisementsString = "";
+    for (int i = 0; i < allAdvertisements.size(); i++) {
+      allAdvertisementsString += " " + allAdvertisements.get(i).advertisementResponseToString();
+    }
+    return allAdvertisementsString;
+  }
 }

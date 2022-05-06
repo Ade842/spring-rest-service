@@ -39,4 +39,10 @@ public class CreateUserRequest {
   public void setEmail(final String email) {
     this.email = email;
   }
+
+  public String userRequestString() {
+    String user = "";
+    user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
+    return user;
+  }
 }

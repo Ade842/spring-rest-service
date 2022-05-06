@@ -23,34 +23,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/advertisements")
 public class AdvertisementsController {
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementsController.class);
   @Autowired
   private AdvertisementService advertisementService;
 
   @GetMapping()
   public ResponseEntity<GetAllAdvertisementsResponse> getAllAdvertisements() {
     GetAllAdvertisementsResponse getAllAdvertisementsResponse = advertisementService.getAllAdvertisements();
-    LOGGER .info("Advertisements: {}", getAllAdvertisementsResponse);
+    LOGGER.info("Advertisements: {}", getAllAdvertisementsResponse.toString());
     return ResponseEntity.ok(getAllAdvertisementsResponse);
   }
 
   @GetMapping("/{id}")
   private ResponseEntity<AdvertisementResponse> getAdvertisementById(@PathVariable final long id) {
-    LOGGER .info("Advertisement with id: " + id);
+    LOGGER.info("Advertisement with id: " + id + " " + advertisementService.getAdvertisementsById(id).advertisementResponseToString());
     return ResponseEntity.ok(advertisementService.getAdvertisementsById(id));
   }
 
   @DeleteMapping("/{id}")
   private ResponseEntity<HttpStatus> deleteAdvertisement(@PathVariable("id") final int id) {
     advertisementService.delete(id);
-    LOGGER .info("Deleted advertisement with id: " + id);
+    LOGGER.info("Deleted advertisement with id: " + id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @PostMapping()
-  private ResponseEntity<CreateAdvertisementsResponse> saveAdvertisement(@RequestBody final CreateAdvertisementsRequest createAdvertisementsRequest) {
-    CreateAdvertisementsResponse createAdvertisementsResponse =  advertisementService.createAdvertisement(createAdvertisementsRequest);
-    LOGGER.info("Created new advertisement: {}", createAdvertisementsResponse);
+  private ResponseEntity<CreateAdvertisementsResponse> saveAdvertisement(
+      @RequestBody final CreateAdvertisementsRequest createAdvertisementsRequest) {
+    CreateAdvertisementsResponse createAdvertisementsResponse = advertisementService.createAdvertisement(createAdvertisementsRequest);
+    LOGGER.info("Created new advertisement: {}", createAdvertisementsRequest.advertisementRequestString());
     return ResponseEntity.ok(createAdvertisementsResponse);
   }
 
@@ -58,7 +59,7 @@ public class AdvertisementsController {
   public ResponseEntity<AdvertisementResponse> updateAdvertisement(@PathVariable final long id,
       @RequestBody final SavingAdvertisementsRequest savingAdvertisementsRequest) {
     AdvertisementResponse advertisementResponse = advertisementService.updateAdvertisements(id, savingAdvertisementsRequest);
-    LOGGER .info("Updated advertisement with id: " + id);
+    LOGGER.info("Updated advertisement with id: " + id);
     return ResponseEntity.ok(advertisementResponse);
   }
 }

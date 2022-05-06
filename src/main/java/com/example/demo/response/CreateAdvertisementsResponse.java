@@ -4,7 +4,8 @@ public class CreateAdvertisementsResponse {
 
   private long id;
 
-  public CreateAdvertisementsResponse() {}
+  public CreateAdvertisementsResponse() {
+  }
 
   public long getId() {
     return id;

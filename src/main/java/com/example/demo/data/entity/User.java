@@ -41,7 +41,8 @@ public class User {
   @Temporal(TemporalType.TIMESTAMP)
   private Date updatedAt;
 
-  public User() {}
+  public User() {
+  }
 
   public String getDisplayName() {
     return displayName;

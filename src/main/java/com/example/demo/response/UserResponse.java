@@ -51,4 +51,10 @@ public class UserResponse {
   public void setEmail(final String email) {
     this.email = email;
   }
+
+  public String userResponseString() {
+    String user = "";
+    user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
+    return user;
+  }
 }

@@ -38,4 +38,10 @@ public class AdvertisementResponse {
   public void setUserId(final long userId) {
     this.userId = userId;
   }
+
+  public String advertisementResponseToString() {
+    String advertisement = "";
+    advertisement = "{'title': " + getTitle() + ", " + "'description': " + getDescription() + "}";
+    return advertisement;
+  }
 }
