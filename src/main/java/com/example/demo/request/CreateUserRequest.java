@@ -40,11 +40,8 @@ public class CreateUserRequest {
     this.email = email;
   }
 
-  public String userRequestString() {
-    String user = "";
-    user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
-    return user;
+  @Override
+  public String toString() {
+    return "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
   }
-
-
 }

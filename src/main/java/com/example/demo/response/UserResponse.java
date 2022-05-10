@@ -51,11 +51,8 @@ public class UserResponse {
     this.email = email;
   }
 
-  public String userResponseString() {
-    String user = "";
-    user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
-    return user;
+  @Override
+  public String toString() {
+    return "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
   }
-
-
 }
