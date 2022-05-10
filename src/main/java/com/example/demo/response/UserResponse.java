@@ -8,7 +8,6 @@ public class UserResponse {
   private String phoneNumber;
   private String email;
 
-
   public UserResponse() {
   }
 
@@ -57,4 +56,6 @@ public class UserResponse {
     user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
     return user;
   }
+
+
 }

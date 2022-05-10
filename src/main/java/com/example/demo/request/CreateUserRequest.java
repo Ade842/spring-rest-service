@@ -45,4 +45,6 @@ public class CreateUserRequest {
     user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
     return user;
   }
+
+
 }

@@ -8,6 +8,8 @@ import com.example.demo.request.SavingUserRequest;
 import com.example.demo.response.CreateResponse;
 import com.example.demo.response.GetAllUsersResponse;
 import com.example.demo.response.UserResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 public class UserService {
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
   @Autowired
   private UserRepository userRepository;
 
@@ -26,6 +28,7 @@ public class UserService {
     user.setDisplaySurname(createUserRequest.getDisplaySurname());
     user.setPhoneNumber(createUserRequest.getPhoneNumber());
     user.setEmail(createUserRequest.getEmail());
+    //user.setDeleted(false);
     return user;
   }
 
@@ -49,7 +52,10 @@ public class UserService {
     List<UserResponse> listUserResponse = new ArrayList<UserResponse>() {
     };
     for (User listUser : listUsers) {
-      listUserResponse.add(fromUserToUserResponse(listUser));
+      if (!listUser.getDeleted()) {
+        listUserResponse.add(fromUserToUserResponse(listUser));
+      }
+
     }
     return new GetAllUsersResponse(listUserResponse);
   }
@@ -59,7 +65,19 @@ public class UserService {
   }
 
   public UserResponse getUserById(final long id) {
-    return fromUserToUserResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found")));
+    User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found"));
+    boolean deletedUser = user.getDeleted();
+    LOGGER.info(String.valueOf(deletedUser));
+    try {
+
+      if (!deletedUser) {
+        return fromUserToUserResponse(user);
+      } else {
+        throw new ResourceNotFoundException("User with id:" + id + " is deleted");
+      }
+    } catch (Exception e) {
+      throw new ResourceNotFoundException("User with id:" + id + " could not be found");
+    }
   }
 
   public CreateResponse createUser(final CreateUserRequest createUserRequest) {
@@ -73,7 +91,16 @@ public class UserService {
 
   public void delete(final long id) {
     try {
-      userRepository.deleteById(id);
+      User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found"));
+      Boolean deletedUser = user.getDeleted();
+
+      if (!deletedUser) {
+        user.setDeleted(true);
+        userRepository.save(user);
+        LOGGER.info(user.getDeleted().toString());
+      } else {
+        throw new ResourceNotFoundException("User with id:" + id + " is deleted");
+      }
     } catch (Exception e) {
       throw new ResourceNotFoundException("User with id:" + id + " could not be found");
     }
@@ -81,11 +108,21 @@ public class UserService {
 
   public UserResponse updateUser(final long id, final SavingUserRequest userDetails) {
     User updateUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found"));
-    updateUser.setDisplayName(userDetails.getDisplayName());
-    updateUser.setDisplaySurname(userDetails.getDisplaySurname());
-    updateUser.setPhoneNumber(userDetails.getPhoneNumber());
-    updateUser.setEmail(userDetails.getEmail());
-    userRepository.save(updateUser);
-    return fromUserToUserResponse(updateUser);
+
+    try {
+      if (!updateUser.getDeleted()) {
+        updateUser.setDisplayName(userDetails.getDisplayName());
+        updateUser.setDisplaySurname(userDetails.getDisplaySurname());
+        updateUser.setPhoneNumber(userDetails.getPhoneNumber());
+        updateUser.setEmail(userDetails.getEmail());
+        userRepository.save(updateUser);
+        return fromUserToUserResponse(updateUser);
+      } else {
+        throw new ResourceNotFoundException("User with id:" + id + " is deleted");
+      }
+    } catch (Exception e) {
+      throw new ResourceNotFoundException("User with id:" + id + " could not be found");
+    }
   }
 }
+
