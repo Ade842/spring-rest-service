@@ -21,4 +21,10 @@ public class CreateAdvertisementsRequest {
   public void setUserId(final long userId) {
     this.userId = userId;
   }
+
+  @Override
+  public String toString() {
+    return "{'title': " + getTitle() + ", " + "'descriptioon': " + getDescription() + "}";
+  }
+
 }

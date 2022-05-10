@@ -21,4 +21,12 @@ public class GetAllUsersResponse {
     this.allUsers = allUsers;
   }
 
+  @Override
+  public String toString() {
+    String allUsersString = "";
+    for (UserResponse allUser : allUsers) {
+      allUsersString += " " + allUser;
+    }
+    return allUsersString;
+  }
 }

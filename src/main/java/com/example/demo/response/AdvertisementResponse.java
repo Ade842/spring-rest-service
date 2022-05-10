@@ -38,4 +38,10 @@ public class AdvertisementResponse {
   public void setUserId(final long userId) {
     this.userId = userId;
   }
+
+  @Override
+  public String toString() {
+    return "{'title': " + getTitle() + ", " + "'description': " + getDescription() + "}";
+  }
+
 }

@@ -14,12 +14,13 @@ public class DemoApplication implements CommandLineRunner {
   private UserRepository userRepository;
 
   public static void main(final String[] args) {
+
     SpringApplication.run(DemoApplication.class, args);
+
   }
 
   @Override
   public void run(final String... args) throws Exception {
     User user = new User();
-
   }
 }

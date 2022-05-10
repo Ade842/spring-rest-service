@@ -39,4 +39,10 @@ public class CreateUserRequest {
   public void setEmail(final String email) {
     this.email = email;
   }
+
+  @Override
+  public String toString() {
+    return "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
+  }
+
 }
