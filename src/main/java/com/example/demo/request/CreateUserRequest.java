@@ -44,5 +44,4 @@ public class CreateUserRequest {
   public String toString() {
     return "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
   }
-
 }

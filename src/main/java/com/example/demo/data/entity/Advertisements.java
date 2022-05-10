@@ -31,13 +31,16 @@ public class Advertisements {
   @JoinColumn(name = "user_id")
   private User user;
 
-  @Column(name = "created_at", insertable = false, updatable = false)
+  @Column(name = "created_at")
   @CreationTimestamp
   private Date createdAt;
 
-  @Column(name = "updated_at", insertable = false, updatable = false)
+  @Column(name = "updated_at")
   @UpdateTimestamp
   private Date updatedAt;
+
+  @Column(name = "deleted", columnDefinition = "boolean default false", updatable = true)
+  private boolean deleted;
 
   public long getId() {
     return id;
@@ -71,4 +74,11 @@ public class Advertisements {
     this.user = user;
   }
 
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(final boolean deleted) {
+    this.deleted = deleted;
+  }
 }

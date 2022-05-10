@@ -10,6 +10,8 @@ import com.example.demo.request.SavingAdvertisementsRequest;
 import com.example.demo.response.AdvertisementResponse;
 import com.example.demo.response.CreateAdvertisementsResponse;
 import com.example.demo.response.GetAllAdvertisementsResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ import java.util.List;
 
 @Service
 public class AdvertisementService {
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
   @Autowired
   private AdvertisementsRepository advertisementRepository;
   @Autowired
@@ -60,12 +62,20 @@ public class AdvertisementService {
   }
 
   public GetAllAdvertisementsResponse getAllAdvertisements() {
-    return fromListAdvertisementsToListAdvertisementsResponse(advertisementRepository.findAll());
+    return fromListAdvertisementsToListAdvertisementsResponse(advertisementRepository.getNonDeletedAdvertisements());
   }
 
   public AdvertisementResponse getAdvertisementsById(final long id) {
-    User user = userRepository.getById(id);
-    return fromAdvertisementsToAdvertisementResponse(advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id:" + id + " could not be found")), user);
+
+    try {
+      Advertisements advertisement = advertisementRepository.getNonDeletedAdvertisementById(id);
+      User user = userRepository.getById(advertisement.getUser().getId());
+      return fromAdvertisementsToAdvertisementResponse(advertisement, advertisement.getUser());
+
+    } catch (Exception e) {
+      throw new ResourceNotFoundException("Advertisement with id:" + id + " could not be found");
+    }
+
   }
 
   public CreateAdvertisementsResponse createAdvertisement(final CreateAdvertisementsRequest createAdvertisementsRequest) {
@@ -82,17 +92,26 @@ public class AdvertisementService {
 
   public void delete(final long id) {
     try {
-      advertisementRepository.deleteById(id);
+      Advertisements advertisement = advertisementRepository.getNonDeletedAdvertisementById(id);
+      advertisement.setDeleted(true);
+      advertisementRepository.save(advertisement);
+
     } catch (Exception e) {
       throw new ResourceNotFoundException("Advertisement with id:" + id + " could not be found");
     }
   }
 
   public AdvertisementResponse updateAdvertisements(final long id, final SavingAdvertisementsRequest advertisementsDetails) {
-    Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id: " + id + " could not be found"));
-    advertisements.setTitle(advertisementsDetails.getTitle());
-    advertisements.setDescription(advertisementsDetails.getDescription());
-    advertisementRepository.save(advertisements);
-    return fromAdvertisementsToAdvertisementResponse(advertisements, userRepository.getById(id));
+
+
+    try {
+      Advertisements updateAdvertisement = advertisementRepository.getNonDeletedAdvertisementById(id);
+      updateAdvertisement.setTitle(advertisementsDetails.getTitle());
+      updateAdvertisement.setDescription(advertisementsDetails.getDescription());
+      advertisementRepository.save(updateAdvertisement);
+      return fromAdvertisementsToAdvertisementResponse(updateAdvertisement, userRepository.getById(id));
+    } catch (Exception e) {
+      throw new ResourceNotFoundException("Advertisement with id:" + id + " could not be found");
+    }
   }
 }
