@@ -32,7 +32,7 @@ public class UserIntegrationTest {
     RestAssured.port = port;
   }
   @Test
-  public void listUsers() {
+  public void getAllUsers() {
     validatableResponse = given()
         .contentType(ContentType.JSON)
         .when()
@@ -43,7 +43,7 @@ public class UserIntegrationTest {
   }
 
   @Test
-  public void listUser() throws JSONException {
+  public void getUserById() throws JSONException {
     Faker faker = new Faker();
     String randomName = faker.name().firstName();
     String randomSurname = faker.name().lastName();

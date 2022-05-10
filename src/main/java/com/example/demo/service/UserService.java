@@ -28,7 +28,6 @@ public class UserService {
     user.setDisplaySurname(createUserRequest.getDisplaySurname());
     user.setPhoneNumber(createUserRequest.getPhoneNumber());
     user.setEmail(createUserRequest.getEmail());
-    //user.setDeleted(false);
     return user;
   }
 
@@ -52,29 +51,21 @@ public class UserService {
     List<UserResponse> listUserResponse = new ArrayList<UserResponse>() {
     };
     for (User listUser : listUsers) {
-      if (!listUser.getDeleted()) {
-        listUserResponse.add(fromUserToUserResponse(listUser));
-      }
-
+      listUserResponse.add(fromUserToUserResponse(listUser));
     }
     return new GetAllUsersResponse(listUserResponse);
   }
 
   public GetAllUsersResponse getAllUsers() {
-    return fromListUserToListUserResponse(userRepository.findAll());
+    return fromListUserToListUserResponse(userRepository.getNonDeletedUsers());
   }
 
   public UserResponse getUserById(final long id) {
-    User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found"));
-    boolean deletedUser = user.getDeleted();
-    LOGGER.info(String.valueOf(deletedUser));
-    try {
 
-      if (!deletedUser) {
-        return fromUserToUserResponse(user);
-      } else {
-        throw new ResourceNotFoundException("User with id:" + id + " is deleted");
-      }
+    try {
+      User user = userRepository.getNonDeletedUsersById(id);
+      return fromUserToUserResponse(user);
+
     } catch (Exception e) {
       throw new ResourceNotFoundException("User with id:" + id + " could not be found");
     }
@@ -91,35 +82,24 @@ public class UserService {
 
   public void delete(final long id) {
     try {
-      User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found"));
-      Boolean deletedUser = user.getDeleted();
-
-      if (!deletedUser) {
-        user.setDeleted(true);
-        userRepository.save(user);
-        LOGGER.info(user.getDeleted().toString());
-      } else {
-        throw new ResourceNotFoundException("User with id:" + id + " is deleted");
-      }
+      User user = userRepository.getNonDeletedUsersById(id);
+      user.setDeleted(true);
+      userRepository.save(user);
     } catch (Exception e) {
       throw new ResourceNotFoundException("User with id:" + id + " could not be found");
     }
   }
 
   public UserResponse updateUser(final long id, final SavingUserRequest userDetails) {
-    User updateUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " could not be found"));
-
     try {
-      if (!updateUser.getDeleted()) {
-        updateUser.setDisplayName(userDetails.getDisplayName());
-        updateUser.setDisplaySurname(userDetails.getDisplaySurname());
-        updateUser.setPhoneNumber(userDetails.getPhoneNumber());
-        updateUser.setEmail(userDetails.getEmail());
-        userRepository.save(updateUser);
-        return fromUserToUserResponse(updateUser);
-      } else {
-        throw new ResourceNotFoundException("User with id:" + id + " is deleted");
-      }
+      User updateUser = userRepository.getNonDeletedUsersById(id);
+      updateUser.setDisplayName(userDetails.getDisplayName());
+      updateUser.setDisplaySurname(userDetails.getDisplaySurname());
+      updateUser.setPhoneNumber(userDetails.getPhoneNumber());
+      updateUser.setEmail(userDetails.getEmail());
+      userRepository.save(updateUser);
+      return fromUserToUserResponse(updateUser);
+
     } catch (Exception e) {
       throw new ResourceNotFoundException("User with id:" + id + " could not be found");
     }

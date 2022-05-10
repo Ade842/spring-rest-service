@@ -63,9 +63,3 @@ public class AdvertisementsController {
     return ResponseEntity.ok(advertisementResponse);
   }
 }
-
-
-
-
-
-
