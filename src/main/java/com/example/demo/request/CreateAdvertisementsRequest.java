@@ -24,9 +24,7 @@ public class CreateAdvertisementsRequest {
 
   @Override
   public String toString() {
-    String advertisement = "";
-    advertisement = "{'title': " + getTitle() + ", " + "'descriptioon': " + getDescription() + "}";
-    return advertisement;
+    return "{'title': " + getTitle() + ", " + "'descriptioon': " + getDescription() + "}";
   }
 
 }

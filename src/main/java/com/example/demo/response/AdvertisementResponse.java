@@ -41,9 +41,7 @@ public class AdvertisementResponse {
 
   @Override
   public String toString() {
-    String advertisement = "";
-    advertisement = "{'title': " + getTitle() + ", " + "'description': " + getDescription() + "}";
-    return advertisement;
+    return "{'title': " + getTitle() + ", " + "'description': " + getDescription() + "}";
   }
 
 }

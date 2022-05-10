@@ -54,9 +54,7 @@ public class UserResponse {
 
   @Override
   public String toString() {
-    String user = "";
-    user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
-    return user;
+    return "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
   }
 
 }

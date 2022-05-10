@@ -25,7 +25,7 @@ public class GetAllUsersResponse {
   public String toString() {
     String allUsersString = "";
     for (UserResponse allUser : allUsers) {
-      allUsersString += " " + allUser.toString();
+      allUsersString += " " + allUser;
     }
     return allUsersString;
   }

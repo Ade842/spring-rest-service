@@ -1,6 +1,5 @@
 package com.example.demo.filter;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -45,8 +44,8 @@ public class RequestResponseLoggingFilter implements Filter {
     try {
       return new String(contentAsByteArray, 0, contentAsByteArray.length, characterEncoding);
     } catch (Exception e) {
-      throw new ResourceNotFoundException(e.toString());
+      LOGGER.error(e.getMessage());
     }
-
+    return "";
   }
 }

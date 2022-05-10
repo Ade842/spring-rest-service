@@ -21,7 +21,7 @@ public class GetAllAdvertisementsResponse {
   public String toString() {
     String allAdvertisementsString = "";
     for (AdvertisementResponse allAdvertisement : allAdvertisements) {
-      allAdvertisementsString += " " + allAdvertisement.toString();
+      allAdvertisementsString += " " + allAdvertisement;
     }
     return allAdvertisementsString;
   }
