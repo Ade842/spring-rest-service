@@ -30,13 +30,13 @@ public class AdvertisementsController {
   @GetMapping()
   public ResponseEntity<GetAllAdvertisementsResponse> getAllAdvertisements() {
     GetAllAdvertisementsResponse getAllAdvertisementsResponse = advertisementService.getAllAdvertisements();
-    LOGGER.info("Advertisements: {}", getAllAdvertisementsResponse.toString());
+    LOGGER.info("Advertisements: {}", getAllAdvertisementsResponse);
     return ResponseEntity.ok(getAllAdvertisementsResponse);
   }
 
   @GetMapping("/{id}")
   private ResponseEntity<AdvertisementResponse> getAdvertisementById(@PathVariable final long id) {
-    LOGGER.info("Advertisement with id: " + id + " " + advertisementService.getAdvertisementsById(id).advertisementResponseToString());
+    LOGGER.info("Advertisement with id: " + id + " " + advertisementService.getAdvertisementsById(id));
     return ResponseEntity.ok(advertisementService.getAdvertisementsById(id));
   }
 
@@ -51,7 +51,7 @@ public class AdvertisementsController {
   private ResponseEntity<CreateAdvertisementsResponse> saveAdvertisement(
       @RequestBody final CreateAdvertisementsRequest createAdvertisementsRequest) {
     CreateAdvertisementsResponse createAdvertisementsResponse = advertisementService.createAdvertisement(createAdvertisementsRequest);
-    LOGGER.info("Created new advertisement: {}", createAdvertisementsRequest.advertisementRequestString());
+    LOGGER.info("Created new advertisement: {}", createAdvertisementsRequest);
     return ResponseEntity.ok(createAdvertisementsResponse);
   }
 

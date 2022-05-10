@@ -30,13 +30,13 @@ public class UserController {
   @GetMapping()
   public ResponseEntity<GetAllUsersResponse> getAllUsers() {
     GetAllUsersResponse getAllUsersResponse = userService.getAllUsers();
-    LOGGER.info("Users: {}", getAllUsersResponse.toString());
+    LOGGER.info("Users: {}", getAllUsersResponse);
     return ResponseEntity.ok(getAllUsersResponse);
   }
 
   @GetMapping("/{id}")
   private ResponseEntity<UserResponse> getUserById(@PathVariable final long id) {
-    LOGGER.info("User with id: " + id + " " + userService.getUserById(id).userResponseString());
+    LOGGER.info("User with id: " + id + " " + userService.getUserById(id));
     return ResponseEntity.ok(userService.getUserById(id));
   }
 
@@ -49,7 +49,7 @@ public class UserController {
 
   @PostMapping()
   private ResponseEntity<CreateResponse> saveUser(@RequestBody final CreateUserRequest user) {
-    LOGGER.info("Created new user: {}", user.userRequestString());
+    LOGGER.info("Created new user: {}", user);
     return ResponseEntity.ok(userService.createUser(user));
   }
 

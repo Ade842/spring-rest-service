@@ -39,9 +39,11 @@ public class AdvertisementResponse {
     this.userId = userId;
   }
 
-  public String advertisementResponseToString() {
+  @Override
+  public String toString() {
     String advertisement = "";
     advertisement = "{'title': " + getTitle() + ", " + "'description': " + getDescription() + "}";
     return advertisement;
   }
+
 }

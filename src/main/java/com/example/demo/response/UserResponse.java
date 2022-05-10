@@ -52,9 +52,11 @@ public class UserResponse {
     this.email = email;
   }
 
-  public String userResponseString() {
+  @Override
+  public String toString() {
     String user = "";
     user = "{'displayName': " + getDisplayName() + ", " + "'displaySurname': " + getDisplaySurname() + ", " + "'phoneNumber': " + getPhoneNumber() + ", " + "'email': " + getEmail() + "}";
     return user;
   }
+
 }

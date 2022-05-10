@@ -20,8 +20,8 @@ public class GetAllAdvertisementsResponse {
   @Override
   public String toString() {
     String allAdvertisementsString = "";
-    for (int i = 0; i < allAdvertisements.size(); i++) {
-      allAdvertisementsString += " " + allAdvertisements.get(i).advertisementResponseToString();
+    for (AdvertisementResponse allAdvertisement : allAdvertisements) {
+      allAdvertisementsString += " " + allAdvertisement.toString();
     }
     return allAdvertisementsString;
   }

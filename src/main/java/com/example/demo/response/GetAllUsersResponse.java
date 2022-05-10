@@ -24,8 +24,8 @@ public class GetAllUsersResponse {
   @Override
   public String toString() {
     String allUsersString = "";
-    for (int i = 0; i < allUsers.size(); i++) {
-      allUsersString += " " + allUsers.get(i).userResponseString();
+    for (UserResponse allUser : allUsers) {
+      allUsersString += " " + allUser.toString();
     }
     return allUsersString;
   }

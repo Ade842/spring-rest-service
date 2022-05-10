@@ -22,9 +22,11 @@ public class CreateAdvertisementsRequest {
     this.userId = userId;
   }
 
-  public String advertisementRequestString() {
+  @Override
+  public String toString() {
     String advertisement = "";
     advertisement = "{'title': " + getTitle() + ", " + "'descriptioon': " + getDescription() + "}";
     return advertisement;
   }
+
 }
