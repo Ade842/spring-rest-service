@@ -64,7 +64,7 @@ public class AdvertisementIntegrationTest {
     return id;
   }
   @Test
-  public void getAllAdvertisements() {
+  public void getAllAdvertisementsSuccess() {
     validatableResponse = given()
         .contentType(ContentType.JSON)
         .when()
@@ -72,9 +72,19 @@ public class AdvertisementIntegrationTest {
         .then()
         .assertThat().statusCode(200);
   }
+  @Test
+  public void getAllAdvertisementsFailure() {
+    validatableResponse = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/advertisement")
+        .then()
+        .assertThat().statusCode(404)
+        .statusLine("HTTP/1.1 404 ");
+  }
 
   @Test
-  public void getAdvertisementById() throws JSONException {
+  public void getAdvertisementByIdSuccess() throws JSONException {
     Faker faker = new Faker();
     String randomTitle = faker.name().title();
 
@@ -82,7 +92,7 @@ public class AdvertisementIntegrationTest {
 
     newAdvertisement.put("title", randomTitle);
     newAdvertisement.put("description", randomTitle + " description");
-    newAdvertisement.put("userId", 1);
+    newAdvertisement.put("userId", getUserId());
 
     int id = given()
         .contentType(ContentType.JSON).body(newAdvertisement.toString())
@@ -94,11 +104,21 @@ public class AdvertisementIntegrationTest {
     validatableResponse = given()
         .contentType(ContentType.JSON)
         .when()
-        .get("/advertisements/"+id)
+        .get("/advertisements/" + id)
         .then()
         .assertThat().log().all().statusCode(200);
   }
+  @Test
+  public void getAdvertisementByIdFailure() throws JSONException {
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/advertisements/" + 999999999)
+        .then()
+        .log().all().assertThat().statusCode(404)
+        .statusLine("HTTP/1.1 404 ");
 
+  }
   @Test
   public void createAdvertisement() throws JSONException {
     int userId = getUserId();
@@ -129,9 +149,32 @@ public class AdvertisementIntegrationTest {
         .body("userId", equalTo(userId));
 
   }
+  @Test
+  public void createAdvertisementFailure() throws JSONException {
+    int userId = getUserId();
+    Faker faker = new Faker();
+    String randomTitle = faker.name().title();
+    JSONObject newAdvertisement = new JSONObject();
+
+    newAdvertisement.put("title", null);
+    newAdvertisement.put("description", null);
+    newAdvertisement.put("userId",null);
+
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .post("/advertisements")
+        .then()
+        .log().all().assertThat().statusCode(400)
+        .statusLine("HTTP/1.1 400 ");
+
+  }
+
+
+
 
   @Test
-  public void updateAdvertisement() throws JSONException {
+  public void updateAdvertisementSuccess() throws JSONException {
     int userId = getUserId();
     Faker faker = new Faker();
     String randomTitle = faker.name().title();
@@ -176,6 +219,42 @@ public class AdvertisementIntegrationTest {
         .body("userId", equalTo(userId));
 
   }
+  @Test
+  public void updateAdvertisementFailure() throws JSONException {
+    int userId = getUserId();
+    Faker faker = new Faker();
+    String randomTitle = faker.name().title();
+
+    JSONObject newAdvertisement = new JSONObject();
+
+    newAdvertisement.put("title", randomTitle);
+    newAdvertisement.put("description", randomTitle + " description");
+    newAdvertisement.put("userId", userId);
+
+    int id = given()
+        .contentType(ContentType.JSON).body(newAdvertisement.toString())
+        .when()
+        .post("/advertisements")
+        .then()
+        .log().all().assertThat().statusCode(200).extract().
+        path("id");
+
+    Faker fakerUpdate = new Faker();
+    String randomUpdateTitle = fakerUpdate.name().title();
+    JSONObject newUpdateAdvertisement = new JSONObject();
+
+    newUpdateAdvertisement.put("title", null);
+    newUpdateAdvertisement.put("description", null);
+    newUpdateAdvertisement.put("userId", null);
+
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON).body(newUpdateAdvertisement.toString())
+        .when()
+        .post("/users/" + id)
+        .then()
+        .log().all().assertThat().statusCode(405)
+        .statusLine("HTTP/1.1 405 ");
+  }
 
   @Test
   public void deleteAdvertisement() throws JSONException {
@@ -209,8 +288,18 @@ public class AdvertisementIntegrationTest {
         .when()
         .get("/advertisements/" + id)
         .then()
-        .log().all().assertThat().statusCode(500);
+        .log().all().assertThat().statusCode(404);
 
+  }
+  @Test
+  public void deleteUserByIdFailure() throws JSONException {
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/advertisements/" + 999999999)
+        .then()
+        .log().all().assertThat().statusCode(404)
+        .statusLine("HTTP/1.1 404 ");
   }
 
 }

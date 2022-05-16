@@ -65,7 +65,7 @@ public class AdvertisementService {
 
   public AdvertisementResponse getAdvertisementsById(final long id) {
     User user = userRepository.getById(id);
-    return fromAdvertisementsToAdvertisementResponse(advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id:" + id + " could not be found")), user);
+    return fromAdvertisementsToAdvertisementResponse(advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id: " + id + " could not be found")), user);
   }
 
   public CreateAdvertisementsResponse createAdvertisement(final CreateAdvertisementsRequest createAdvertisementsRequest) {
@@ -77,6 +77,7 @@ public class AdvertisementService {
     } catch (Exception e) {
       System.out.println(Arrays.toString(e.getStackTrace()));
       throw new ResourceNotFoundException("Advertisement could not be saved");
+      //throw new ApiRequestException("Advertisement could not be saved");
     }
   }
 
@@ -84,15 +85,22 @@ public class AdvertisementService {
     try {
       advertisementRepository.deleteById(id);
     } catch (Exception e) {
-      throw new ResourceNotFoundException("Advertisement with id:" + id + " could not be found");
+      throw new ResourceNotFoundException("Advertisement with id: " + id + " could not be found");
     }
   }
 
   public AdvertisementResponse updateAdvertisements(final long id, final SavingAdvertisementsRequest advertisementsDetails) {
-    Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id: " + id + " could not be found"));
-    advertisements.setTitle(advertisementsDetails.getTitle());
-    advertisements.setDescription(advertisementsDetails.getDescription());
-    advertisementRepository.save(advertisements);
-    return fromAdvertisementsToAdvertisementResponse(advertisements, userRepository.getById(id));
+    try {
+      Advertisements advertisements = advertisementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advertisement with id: " + id + " could not be found"));
+      advertisements.setTitle(advertisementsDetails.getTitle());
+      advertisements.setDescription(advertisementsDetails.getDescription());
+      advertisementRepository.save(advertisements);
+      return fromAdvertisementsToAdvertisementResponse(advertisements, userRepository.getById(id));
+    } catch (Exception e) {
+      System.out.println(Arrays.toString(e.getStackTrace()));
+      throw new ResourceNotFoundException("Advertisement could not be saved");
+      //throw new ApiRequestException("Advertisement could not be saved", e);
+    }
   }
+
 }
