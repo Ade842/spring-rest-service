@@ -34,12 +34,17 @@ public class User {
   private String email;
 
   @CreationTimestamp
-  @Column(name = "created_at", insertable = false, updatable = false)
+  @Column(name = "created_at")
   private Date createdAt;
 
   @UpdateTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   private Date updatedAt;
+
+
+  @Column(name = "deleted", columnDefinition = "boolean default false", updatable = true)
+  private boolean deleted;
+
 
   public User() {
   }
@@ -80,4 +85,11 @@ public class User {
     return id;
   }
 
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(final boolean deleted) {
+    this.deleted = deleted;
+  }
 }

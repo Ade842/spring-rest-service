@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.UserController;
 import com.example.demo.data.entity.User;
 import com.example.demo.data.repository.UserRepository;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -19,11 +18,9 @@ import java.util.List;
 
 @Service
 public class UserService {
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
   @Autowired
   private UserRepository userRepository;
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
   public User createUserFromUserRequest(final CreateUserRequest createUserRequest) {
     User user = new User();
@@ -60,11 +57,17 @@ public class UserService {
   }
 
   public GetAllUsersResponse getAllUsers() {
-    return fromListUserToListUserResponse(userRepository.findAll());
+    return fromListUserToListUserResponse(userRepository.getNonDeletedUsers());
   }
 
   public UserResponse getUserById(final long id) {
-    return fromUserToUserResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id: " + id + " could not be found")));
+    try {
+      User user = userRepository.getNonDeletedUsersById(id);
+      return fromUserToUserResponse(user);
+
+    } catch (Exception e) {
+      throw new ResourceNotFoundException("User with id:" + id + " could not be found");
+    }
   }
 
   public CreateResponse createUser(final CreateUserRequest createUserRequest) {
@@ -78,7 +81,9 @@ public class UserService {
 
   public void delete(final long id) {
     try {
-      userRepository.deleteById(id);
+      User user = userRepository.getNonDeletedUsersById(id);
+      user.setDeleted(true);
+      userRepository.save(user);
     } catch (Exception e) {
       throw new ResourceNotFoundException("User with id:" + id + " could not be found");
     }
@@ -86,7 +91,7 @@ public class UserService {
 
   public UserResponse updateUser(final long id, final SavingUserRequest userDetails) {
     try {
-      User updateUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id: " + id + " could not be found"));
+      User updateUser = userRepository.getNonDeletedUsersById(id);
       updateUser.setDisplayName(userDetails.getDisplayName());
       updateUser.setDisplaySurname(userDetails.getDisplaySurname());
       updateUser.setPhoneNumber(userDetails.getPhoneNumber());
@@ -95,9 +100,8 @@ public class UserService {
       return fromUserToUserResponse(updateUser);
     } catch (Exception e) {
       LOGGER.info(e.getMessage());
-      //throw new ApiRequestException("User could not be saved", e);
-      throw new ResourceNotFoundException("User could not be saved");
+      throw new ResourceNotFoundException("User with id: " + id + "could not be saved");
     }
-
   }
 }
+
