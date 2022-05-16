@@ -1,29 +1,52 @@
-# README #
+# Adelisa Spring Rest Service
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The application is accessible via localhost:8080
+Apache Maven version: 3.8.2
+Java version: 11
+PostgreSQL database
+H2 database for tests
 
-### What is this repository for? ###
+### Dependencies
+There are a number of third-party dependencies used in the project. 
+Browse the Maven pom.xml file for details of libraries and versions used.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Database setup
 
-### How do I get set up? ###
+Run in psql command prompt:
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+```
+\i 'path/to/project/adelisa-spring-rest-service/src/main/resources/skripta.txt'
+```
+#### Reminder: 
+While starting up postgresql you have to add privileges manually
 
-### Contribution guidelines ###
+### How to test
+For integration tests:
+Open Command Prompt in the folder and run:
+```
+mvnw clean install -Dspring.profiles.active=integration-test
+```
 
-* Writing tests
-* Code review
-* Other guidelines
+### How to build
+Integration tests are included to be executed:
+```
+mvnw clean install -Dspring.profiles.active=test
+```
 
-### Who do I talk to? ###
+### How to run
+Open Command Prompt in the folder and run for profile -dev:
 
-* Repo owner or admin
-* Other community or team contact
+```
+java -jar target/demo-0.0.1-SNAPSHOT.jar
+```
+
+Alternatively you can use the Spring Boot Maven plugin like so:
+
+```sh
+mvnw spring-boot:run
+```
+
+
+
+
+
