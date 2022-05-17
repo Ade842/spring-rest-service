@@ -13,6 +13,6 @@ public interface AdvertisementsRepository extends JpaRepository<Advertisements, 
   @Query(value = "SELECT * FROM advertisements u WHERE u.deleted = false", nativeQuery = true)
   List<Advertisements> getNonDeletedAdvertisements();
 
-  @Query(value = "SELECT * FROM  advertisements u WHERE u.id = :id and  u.deleted = false", nativeQuery = true)
+  @Query(value = "SELECT * FROM advertisements u WHERE u.id = :id and  u.deleted = false", nativeQuery = true)
   Advertisements getNonDeletedAdvertisementById(@Param("id") long id);
 }

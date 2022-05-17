@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query(value = "SELECT * FROM user_table u WHERE u.deleted = false", nativeQuery = true)
   List<User> getNonDeletedUsers();
 
-  @Query(value = "SELECT * FROM  user_table u WHERE u.id = :id and  u.deleted = false", nativeQuery = true)
+  @Query(value = "SELECT * FROM user_table u WHERE u.id = :id and  u.deleted = false", nativeQuery = true)
   User getNonDeletedUsersById(@Param("id") long id);
 
 
