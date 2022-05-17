@@ -1,9 +1,17 @@
 package com.example.demo.request;
 
 
+import javax.validation.constraints.NotEmpty;
+
 public class CreateAdvertisementsRequest {
+
+  @NotEmpty(message = "Title is empty")
   private String title;
+
+  @NotEmpty(message = "Description is empty")
   private String description;
+
+  //@NotEmpty(message = "UserId is empty")
   private long userId;
 
   public String getTitle() {

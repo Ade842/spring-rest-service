@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/advertisements")
 public class AdvertisementsController {
@@ -35,13 +37,13 @@ public class AdvertisementsController {
   }
 
   @GetMapping("/{id}")
-  private ResponseEntity<AdvertisementResponse> getAdvertisementById(@PathVariable final long id) {
+  private ResponseEntity<AdvertisementResponse> getAdvertisementById(@Valid @PathVariable final long id) {
     LOGGER.info("Advertisement with id: " + id + " " + advertisementService.getAdvertisementsById(id));
     return ResponseEntity.ok(advertisementService.getAdvertisementsById(id));
   }
 
   @DeleteMapping("/{id}")
-  private ResponseEntity<HttpStatus> deleteAdvertisement(@PathVariable("id") final int id) {
+  private ResponseEntity<HttpStatus> deleteAdvertisement(@Valid @PathVariable("id") final int id) {
     advertisementService.delete(id);
     LOGGER.info("Deleted advertisement with id: " + id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -49,15 +51,15 @@ public class AdvertisementsController {
 
   @PostMapping()
   private ResponseEntity<CreateAdvertisementsResponse> saveAdvertisement(
-      @RequestBody final CreateAdvertisementsRequest createAdvertisementsRequest) {
+      @Valid @RequestBody final CreateAdvertisementsRequest createAdvertisementsRequest) {
     CreateAdvertisementsResponse createAdvertisementsResponse = advertisementService.createAdvertisement(createAdvertisementsRequest);
     LOGGER.info("Created new advertisement: {}", createAdvertisementsRequest);
     return ResponseEntity.ok(createAdvertisementsResponse);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<AdvertisementResponse> updateAdvertisement(@PathVariable final long id,
-      @RequestBody final SavingAdvertisementsRequest savingAdvertisementsRequest) {
+  public ResponseEntity<AdvertisementResponse> updateAdvertisement(@Valid @PathVariable final long id,
+      @Valid @RequestBody final SavingAdvertisementsRequest savingAdvertisementsRequest) {
     AdvertisementResponse advertisementResponse = advertisementService.updateAdvertisements(id, savingAdvertisementsRequest);
     LOGGER.info("Updated advertisement with id: " + id);
     return ResponseEntity.ok(advertisementResponse);

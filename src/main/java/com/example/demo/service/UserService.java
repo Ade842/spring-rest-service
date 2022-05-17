@@ -61,7 +61,6 @@ public class UserService {
   }
 
   public UserResponse getUserById(final long id) {
-
     try {
       User user = userRepository.getNonDeletedUsersById(id);
       return fromUserToUserResponse(user);
@@ -99,9 +98,9 @@ public class UserService {
       updateUser.setEmail(userDetails.getEmail());
       userRepository.save(updateUser);
       return fromUserToUserResponse(updateUser);
-
     } catch (Exception e) {
-      throw new ResourceNotFoundException("User with id:" + id + " could not be found");
+      LOGGER.info(e.getMessage());
+      throw new ResourceNotFoundException("User with id: " + id + "could not be saved");
     }
   }
 }

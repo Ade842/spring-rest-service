@@ -66,7 +66,6 @@ public class AdvertisementService {
   }
 
   public AdvertisementResponse getAdvertisementsById(final long id) {
-
     try {
       Advertisements advertisement = advertisementRepository.getNonDeletedAdvertisementById(id);
       User user = userRepository.getById(advertisement.getUser().getId());
@@ -75,7 +74,6 @@ public class AdvertisementService {
     } catch (Exception e) {
       throw new ResourceNotFoundException("Advertisement with id:" + id + " could not be found");
     }
-
   }
 
   public CreateAdvertisementsResponse createAdvertisement(final CreateAdvertisementsRequest createAdvertisementsRequest) {
@@ -97,13 +95,11 @@ public class AdvertisementService {
       advertisementRepository.save(advertisement);
 
     } catch (Exception e) {
-      throw new ResourceNotFoundException("Advertisement with id:" + id + " could not be found");
+      throw new ResourceNotFoundException("Advertisement with id: " + id + " could not be found");
     }
   }
 
   public AdvertisementResponse updateAdvertisements(final long id, final SavingAdvertisementsRequest advertisementsDetails) {
-
-
     try {
       Advertisements updateAdvertisement = advertisementRepository.getNonDeletedAdvertisementById(id);
       updateAdvertisement.setTitle(advertisementsDetails.getTitle());

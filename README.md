@@ -1,29 +1,34 @@
-# README #
+# Adelisa Spring Rest Service
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The application is accessible via localhost:8080
+Apache Maven version: 3.8.2
+Java version: 11
+PostgreSQL database
+H2 database for tests
 
-### What is this repository for? ###
+### Dependencies
+There are a number of third-party dependencies used in the project. 
+Browse the Maven pom.xml file for details of libraries and versions used.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Database setup
+#### Reminder: 
+While starting up postgresql you have to add privileges manually
 
-### How do I get set up? ###
+### How to run
+Open Command Prompt in the folder and run for profile -dev:
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+```
+java -jar target/demo-0.0.1-SNAPSHOT.jar
 
-### Contribution guidelines ###
+```
 
-* Writing tests
-* Code review
-* Other guidelines
 
-### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+
+
+
+
+
+
+
+

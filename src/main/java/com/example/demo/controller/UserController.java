@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -35,26 +37,26 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
-  private ResponseEntity<UserResponse> getUserById(@PathVariable final long id) {
+  private ResponseEntity<UserResponse> getUserById(@Valid @PathVariable final long id) {
     LOGGER.info("User with id: " + id + " " + userService.getUserById(id));
     return ResponseEntity.ok(userService.getUserById(id));
   }
 
   @DeleteMapping("/{id}")
-  private ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") final int id) {
+  private ResponseEntity<HttpStatus> deleteUser(@Valid@PathVariable("id") final int id) {
     userService.delete(id);
     LOGGER.info("Deleted user with id: " + id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @PostMapping()
-  private ResponseEntity<CreateResponse> saveUser(@RequestBody final CreateUserRequest user) {
+  private ResponseEntity<CreateResponse> saveUser(@Valid@RequestBody final CreateUserRequest user) {
     LOGGER.info("Created new user: {}", user);
     return ResponseEntity.ok(userService.createUser(user));
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<UserResponse> update(@PathVariable final long id, @RequestBody final SavingUserRequest user) {
+  public ResponseEntity<UserResponse> update(@Valid@PathVariable final long id, @Valid@RequestBody final SavingUserRequest user) {
     LOGGER.info("Updated user with id: " + id);
     return ResponseEntity.ok(userService.updateUser(id, user));
   }
