@@ -12,7 +12,7 @@ public class ApiException {
 
   private final String code;
 
-  ApiException(final String message, final String error, final HttpStatus httpStatus,
+  public ApiException(final String message, final String error, final HttpStatus httpStatus,
       final String code) {
     this.message = message;
     this.error = error;

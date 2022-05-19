@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.data.entity.User;
 import com.example.demo.data.repository.UserRepository;
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.request.CreateUserRequest;
 import com.example.demo.request.SavingUserRequest;
@@ -72,12 +73,20 @@ public class UserService {
 
   public CreateResponse createUser(final CreateUserRequest createUserRequest) {
     try {
+      //String name = createUserRequest.getDisplayName();
+      //String surname = createUserRequest.getDisplaySurname();
+      //User user = userRepository.getNonDeletedUsersWithNameAndSurname(name, surname);
+      // if (user != null) {
       User savedUser = userRepository.save(createUserFromUserRequest(createUserRequest));
       return fromUserToCreateResponse(savedUser.getId());
+      //} else {
+      // return fromUserToCreateResponse(0);
+      // }
     } catch (Exception e) {
-      throw new ResourceNotFoundException("User could not be saved");
+      throw new ApiRequestException("User could not be saved");
     }
   }
+
 
   public void delete(final long id) {
     try {

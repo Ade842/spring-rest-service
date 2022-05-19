@@ -209,7 +209,106 @@ public class AdvertisementIntegrationTest {
 
   }
 
+  @Test
+  public void createAdvertisementFailure2() throws JSONException {
+    Faker faker = new Faker();
+    String randomName = faker.name().firstName();
+    String randomSurname = faker.name().lastName();
+    String randomPhone = faker.phoneNumber().phoneNumber();
+    String randomEmail = faker.internet().emailAddress();
+    JSONObject newUser = new JSONObject();
+    newUser.put("displayName", randomName);
+    newUser.put("displaySurname", randomSurname);
+    newUser.put("phoneNumber", randomPhone);
+    newUser.put("email", randomEmail);
 
+    int id = given()
+        .contentType(ContentType.JSON).body(newUser.toString())
+        .when()
+        .post("/users")
+        .then()
+        .log().all().assertThat().statusCode(200).extract().
+        path("id");
+
+    validatableResponse = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .delete("/users/" + id)
+        .then()
+        .log().all().assertThat().statusCode(204);
+
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/users/" + id)
+        .then()
+        .log().all().assertThat().statusCode(404);
+
+    int categoryId = getCategoryId();
+
+    String randomTitle = faker.name().title();
+    JSONObject newAdvertisement = new JSONObject();
+
+    newAdvertisement.put("title", randomTitle);
+    newAdvertisement.put("description", "description" + randomTitle);
+    newAdvertisement.put("userId",id);
+    newAdvertisement.put("categoryId", categoryId);
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .post("/advertisements/")
+        .then()
+        .log().all().assertThat().statusCode(400)
+        .statusLine("HTTP/1.1 400 ");
+  }
+  @Test
+  public void createAdvertisementFailure3() throws JSONException {
+    int userId = getUserId();
+    Faker faker = new Faker();
+    String randomName = faker.name().title();
+
+    JSONObject newCategory = new JSONObject();
+
+    newCategory.put("categoryName", randomName);
+    newCategory.put("userId", userId);
+
+    int id = given()
+        .contentType(ContentType.JSON).body(newCategory.toString())
+        .when()
+        .post("/categories")
+        .then()
+        .log().all().assertThat().statusCode(200).extract().
+        path("id");
+
+    validatableResponse = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .delete("/categories/" + id)
+        .then()
+        .log().all().assertThat().statusCode(204);
+
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/categories/" + id)
+        .then()
+        .log().all().assertThat().statusCode(404);
+
+    String randomTitle = faker.name().title();
+    JSONObject newAdvertisement = new JSONObject();
+
+    newAdvertisement.put("title", randomTitle);
+    newAdvertisement.put("description", "description" + randomTitle);
+    newAdvertisement.put("userId",getUserId());
+    newAdvertisement.put("categoryId", id);
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .post("/advertisements/")
+        .then()
+        .log().all().assertThat().statusCode(400)
+        .statusLine("HTTP/1.1 400 ");
+  }
 
 
   @Test

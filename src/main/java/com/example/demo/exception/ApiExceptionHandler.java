@@ -42,7 +42,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(ApiRequestException.class)
   public ResponseEntity<?> methodArgumentNotValidException(final ApiRequestException exception, final WebRequest request) {
     ApiException errorDetails =
-        new ApiException("Argument is not the expected type", exception.getMessage(), HttpStatus.BAD_REQUEST, "400");
+        new ApiException("Argument is not the expected type or resource already exists", exception.getMessage(), HttpStatus.BAD_REQUEST, "400");
     return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
   }
 

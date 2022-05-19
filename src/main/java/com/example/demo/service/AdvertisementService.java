@@ -6,6 +6,7 @@ import com.example.demo.data.entity.User;
 import com.example.demo.data.repository.AdvertisementsRepository;
 import com.example.demo.data.repository.CategoryRepository;
 import com.example.demo.data.repository.UserRepository;
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.request.CreateAdvertisementsRequest;
 import com.example.demo.request.SavingAdvertisementsRequest;
@@ -85,14 +86,18 @@ public class AdvertisementService {
 
   public CreateAdvertisementsResponse createAdvertisement(final CreateAdvertisementsRequest createAdvertisementsRequest) {
     try {
-      User user = userRepository.getById(createAdvertisementsRequest.getUserId());
-      Category category = categoryRepository.getById(createAdvertisementsRequest.getCategoryId());
-      Advertisements adv = createAdvertisementsFromAdvertisementRequest(createAdvertisementsRequest, user, category);
-      Advertisements advertisement = advertisementRepository.save(adv);
-      return fromAdvertisementsToCreateResponse(advertisement.getId());
+      User user = userRepository.getNonDeletedUsersById(createAdvertisementsRequest.getUserId());
+      if (user != null) {
+        Category category = categoryRepository.getById(createAdvertisementsRequest.getCategoryId());
+        Advertisements adv = createAdvertisementsFromAdvertisementRequest(createAdvertisementsRequest, user, category);
+        Advertisements advertisement = advertisementRepository.save(adv);
+        return fromAdvertisementsToCreateResponse(advertisement.getId());
+      } else {
+        throw new ApiRequestException("Advertisement could not be saved, user does not exists");
+      }
     } catch (Exception e) {
       System.out.println(Arrays.toString(e.getStackTrace()));
-      throw new ResourceNotFoundException("Advertisement could not be saved");
+      throw new ApiRequestException("Advertisement could not be saved");
     }
   }
 

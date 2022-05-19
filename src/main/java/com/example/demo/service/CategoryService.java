@@ -4,6 +4,7 @@ import com.example.demo.data.entity.Category;
 import com.example.demo.data.entity.User;
 import com.example.demo.data.repository.CategoryRepository;
 import com.example.demo.data.repository.UserRepository;
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.request.CreateCategoryRequest;
 import com.example.demo.request.SavingCategoryRequest;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -78,13 +78,17 @@ public class CategoryService {
 
   public CreateCategoryResponse createCategory(final CreateCategoryRequest createCategoryRequest) {
     try {
-      User user = userRepository.getById(createCategoryRequest.getUserId());
-      Category category = createCategoryFromCategoryRequest(createCategoryRequest, user);
-      Category category1 = categoryRepository.save(category);
-      return fromCategoryToCreateCategoryResponse(category.getId());
+      User user = userRepository.getNonDeletedUsersById(createCategoryRequest.getUserId());
+      if (user != null) {
+        Category category = createCategoryFromCategoryRequest(createCategoryRequest, user);
+        Category category1 = categoryRepository.save(category);
+        return fromCategoryToCreateCategoryResponse(category.getId());
+      } else {
+        throw new ApiRequestException("Category could not be saved, user does not exists");
+
+      }
     } catch (Exception e) {
-      System.out.println(Arrays.toString(e.getStackTrace()));
-      throw new ResourceNotFoundException("Category could not be saved");
+      throw new ApiRequestException("Category could not be saved, user does not exists");
     }
   }
 
