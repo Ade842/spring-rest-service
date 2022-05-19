@@ -1,10 +1,8 @@
 package com.example.demo.response;
 
-public class CreateAdvertisementsResponse {
+public class CreateCategoryResponse {
 
   private long id;
-
-  public CreateAdvertisementsResponse() {}
 
   public long getId() {
     return id;

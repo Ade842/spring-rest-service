@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.data.entity.Advertisements;
+import com.example.demo.data.entity.Category;
 import com.example.demo.data.entity.User;
 import com.example.demo.data.repository.AdvertisementsRepository;
+import com.example.demo.data.repository.CategoryRepository;
 import com.example.demo.data.repository.UserRepository;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.request.CreateAdvertisementsRequest;
@@ -21,19 +23,23 @@ import java.util.List;
 
 @Service
 public class AdvertisementService {
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementService.class);
   @Autowired
   private AdvertisementsRepository advertisementRepository;
+
   @Autowired
   private UserRepository userRepository;
 
+  @Autowired
+  private CategoryRepository categoryRepository;
 
   public Advertisements createAdvertisementsFromAdvertisementRequest(
-      final CreateAdvertisementsRequest createAdvertisementsRequest, final User user) {
+      final CreateAdvertisementsRequest createAdvertisementsRequest, final User user, final Category category) {
     Advertisements advertisement = new Advertisements();
     advertisement.setTitle(createAdvertisementsRequest.getTitle());
     advertisement.setDescription(createAdvertisementsRequest.getDescription());
     advertisement.setUser(user);
+    advertisement.setCategory(category);
     return advertisement;
   }
 
@@ -43,6 +49,7 @@ public class AdvertisementService {
     advertisementResponse.setTitle(advertisements.getTitle());
     advertisementResponse.setDescription(advertisements.getDescription());
     advertisementResponse.setUserId(advertisements.getUser().getId());
+    advertisementResponse.setCategoryId(advertisements.getCategory().getId());
     return advertisementResponse;
   }
 
@@ -79,7 +86,8 @@ public class AdvertisementService {
   public CreateAdvertisementsResponse createAdvertisement(final CreateAdvertisementsRequest createAdvertisementsRequest) {
     try {
       User user = userRepository.getById(createAdvertisementsRequest.getUserId());
-      Advertisements adv = createAdvertisementsFromAdvertisementRequest(createAdvertisementsRequest, user);
+      Category category = categoryRepository.getById(createAdvertisementsRequest.getCategoryId());
+      Advertisements adv = createAdvertisementsFromAdvertisementRequest(createAdvertisementsRequest, user, category);
       Advertisements advertisement = advertisementRepository.save(adv);
       return fromAdvertisementsToCreateResponse(advertisement.getId());
     } catch (Exception e) {

@@ -42,6 +42,10 @@ public class Advertisements {
   @Column(name = "deleted", columnDefinition = "boolean default false", updatable = true)
   private boolean deleted;
 
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private Category category;
+
   public long getId() {
     return id;
   }
@@ -80,5 +84,13 @@ public class Advertisements {
 
   public void setDeleted(final boolean deleted) {
     this.deleted = deleted;
+  }
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public void setCategory(final Category category) {
+    this.category = category;
   }
 }

@@ -64,6 +64,39 @@ public class AdvertisementIntegrationTest {
     return id;
   }
   @Test
+  public int getCategoryId() throws JSONException {
+    int userId = getUserId();
+    Faker faker = new Faker();
+    String randomName = faker.name().title();
+    JSONObject newCategory = new JSONObject();
+
+    newCategory.put("categoryName", randomName);
+    newCategory.put("userId", userId);
+
+    int id = given()
+        .contentType(ContentType.JSON).body(newCategory.toString())
+        .when()
+        .post("/categories")
+        .then()
+        .log().all().assertThat().statusCode(200).extract().
+        path("id");
+    validatableResponse = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/categories/" + id)
+        .then()
+        .assertThat().log().all().statusCode(200);
+    validatableResponse1 = given()
+        .contentType(ContentType.JSON)
+        .when()
+        .get("/categories/" + id)
+        .then()
+        .log().all().assertThat().statusCode(200)
+        .body("categoryName", equalTo(randomName))
+        .body("userId", equalTo(userId));
+   return id;
+  }
+  @Test
   public void getAllAdvertisementsSuccess() {
     validatableResponse = given()
         .contentType(ContentType.JSON)
@@ -93,6 +126,7 @@ public class AdvertisementIntegrationTest {
     newAdvertisement.put("title", randomTitle);
     newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId", getUserId());
+    newAdvertisement.put("categoryId", getCategoryId());
 
     int id = given()
         .contentType(ContentType.JSON).body(newAdvertisement.toString())
@@ -122,6 +156,7 @@ public class AdvertisementIntegrationTest {
   @Test
   public void createAdvertisement() throws JSONException {
     int userId = getUserId();
+    int categoryId = getCategoryId();
     Faker faker = new Faker();
     String randomTitle = faker.name().title();
     JSONObject newAdvertisement = new JSONObject();
@@ -129,6 +164,7 @@ public class AdvertisementIntegrationTest {
     newAdvertisement.put("title", randomTitle);
     newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId",userId);
+    newAdvertisement.put("categoryId", categoryId);
 
     int id = given()
         .contentType(ContentType.JSON).body(newAdvertisement.toString())
@@ -146,12 +182,14 @@ public class AdvertisementIntegrationTest {
         .log().all().assertThat().statusCode(200)
         .body("title", equalTo(randomTitle))
         .body("description", equalTo(randomTitle + " description"))
-        .body("userId", equalTo(userId));
+        .body("userId", equalTo(userId))
+        .body("categoryId", equalTo(categoryId));
 
   }
   @Test
   public void createAdvertisementFailure() throws JSONException {
     int userId = getUserId();
+    int categoryId = getCategoryId();
     Faker faker = new Faker();
     String randomTitle = faker.name().title();
     JSONObject newAdvertisement = new JSONObject();
@@ -159,6 +197,7 @@ public class AdvertisementIntegrationTest {
     newAdvertisement.put("title", null);
     newAdvertisement.put("description", null);
     newAdvertisement.put("userId",null);
+    newAdvertisement.put("categoryId", null);
 
     validatableResponse1 = given()
         .contentType(ContentType.JSON)
@@ -176,6 +215,7 @@ public class AdvertisementIntegrationTest {
   @Test
   public void updateAdvertisementSuccess() throws JSONException {
     int userId = getUserId();
+    int categoryId = getCategoryId();
     Faker faker = new Faker();
     String randomTitle = faker.name().title();
 
@@ -184,6 +224,7 @@ public class AdvertisementIntegrationTest {
     newAdvertisement.put("title", randomTitle);
     newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId", userId);
+    newAdvertisement.put("categoryId", categoryId);
 
     int id = given()
         .contentType(ContentType.JSON).body(newAdvertisement.toString())
@@ -200,6 +241,7 @@ public class AdvertisementIntegrationTest {
     newUpdateAdvertisement.put("title", randomUpdateTitle);
     newUpdateAdvertisement.put("description", randomUpdateTitle + " description");
     newUpdateAdvertisement.put("userId", userId);
+    newAdvertisement.put("categoryId", categoryId);
 
     validatableResponse = given()
         .contentType(ContentType.JSON).body(newUpdateAdvertisement.toString())
@@ -216,12 +258,14 @@ public class AdvertisementIntegrationTest {
         .log().all().assertThat().statusCode(200)
         .body("title", equalTo(randomUpdateTitle))
         .body("description", equalTo(randomUpdateTitle + " description"))
-        .body("userId", equalTo(userId));
+        .body("userId", equalTo(userId))
+        .body("categoryId", equalTo(categoryId));
 
   }
   @Test
   public void updateAdvertisementFailure() throws JSONException {
     int userId = getUserId();
+    int categoryId = getCategoryId();
     Faker faker = new Faker();
     String randomTitle = faker.name().title();
 
@@ -230,6 +274,7 @@ public class AdvertisementIntegrationTest {
     newAdvertisement.put("title", randomTitle);
     newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId", userId);
+    newAdvertisement.put("categoryId", categoryId);
 
     int id = given()
         .contentType(ContentType.JSON).body(newAdvertisement.toString())
@@ -246,6 +291,7 @@ public class AdvertisementIntegrationTest {
     newUpdateAdvertisement.put("title", null);
     newUpdateAdvertisement.put("description", null);
     newUpdateAdvertisement.put("userId", null);
+    newAdvertisement.put("categoryId", null);
 
     validatableResponse1 = given()
         .contentType(ContentType.JSON).body(newUpdateAdvertisement.toString())
@@ -259,6 +305,7 @@ public class AdvertisementIntegrationTest {
   @Test
   public void deleteAdvertisement() throws JSONException {
     int userId = getUserId();
+    int categoryId = getCategoryId();
     Faker faker = new Faker();
     String randomTitle = faker.name().title();
 
@@ -267,6 +314,7 @@ public class AdvertisementIntegrationTest {
     newAdvertisement.put("title", randomTitle);
     newAdvertisement.put("description", randomTitle + " description");
     newAdvertisement.put("userId", userId);
+    newAdvertisement.put("categoryId", categoryId);
 
     int id = given()
         .contentType(ContentType.JSON).body(newAdvertisement.toString())

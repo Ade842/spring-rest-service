@@ -6,6 +6,7 @@ public class AdvertisementResponse {
   private String title;
   private String description;
   private long userId;
+  private long categoryId;
 
   public long getId() {
     return id;
@@ -37,6 +38,14 @@ public class AdvertisementResponse {
 
   public void setUserId(final long userId) {
     this.userId = userId;
+  }
+
+  public long getCategoryId() {
+    return categoryId;
+  }
+
+  public void setCategoryId(final long categoryId) {
+    this.categoryId = categoryId;
   }
 
   @Override

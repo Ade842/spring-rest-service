@@ -11,8 +11,9 @@ public class CreateAdvertisementsRequest {
   @NotEmpty(message = "Description is empty")
   private String description;
 
-  //@NotEmpty(message = "UserId is empty")
   private long userId;
+
+  private long categoryId;
 
   public String getTitle() {
     return title;
@@ -30,9 +31,17 @@ public class CreateAdvertisementsRequest {
     this.userId = userId;
   }
 
+  public long getCategoryId() {
+    return categoryId;
+  }
+
+  public void setCategoryId(final long categoryId) {
+    this.categoryId = categoryId;
+  }
+
   @Override
   public String toString() {
-    return "{'title': " + getTitle() + ", " + "'descriptioon': " + getDescription() + "}";
+    return "{'title': " + getTitle() + ", " + "'descriptioon': " + getDescription() + ", " + "userId:" + getUserId() + ", " + "categoryId:" + getCategoryId() + "}";
   }
 
 }
